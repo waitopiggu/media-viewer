@@ -36,7 +36,7 @@ export default ({ onVideoStateChanging }) => {
   const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
   return (
-    <AppBar color='transparent' position="relative">
+    <AppBar color='transparent' elevation={0} position="relative">
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
           <IconButton onClick={onPreviousFile}>

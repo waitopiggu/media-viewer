@@ -80,7 +80,7 @@ export default () => {
   return (
     <Box sx={{
       width: directoryListWidth,
-      height: 'calc(100vh - 88px)',
+      height: 'calc(100vh - 48px - 56px)',
     }}>
       <ListItem component="div" disablePadding>
         <ListItemButton onClick={onParentDirClick}>

@@ -19,6 +19,7 @@ export default () => {
   const videoTime = React.useRef(0);
 
   const Video = styled('video')({
+    backgroundColor: 'black',
     maxWidth: '100%',
     maxHeight: '100%',
     width: '100%',
