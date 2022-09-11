@@ -1,4 +1,4 @@
 # Media Viewer
 
-A horribly inefficient media viewer made with Electron
+Inefficient media viewer using Electron
 

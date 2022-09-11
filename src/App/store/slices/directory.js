@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { homedir } from 'os';
-import path from 'path';
-
-const initialState = homedir().split(path.sep).join(path.posix.sep);
+import { getPosixPath }from '../../shared/lib/util';
 
 export default createSlice({
   name: 'directory',
-  initialState,
+  initialState: getPosixPath(homedir()),
   reducers: {
     set: (state, action) => action.payload,
   },

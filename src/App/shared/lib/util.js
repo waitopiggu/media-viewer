@@ -1,5 +1,14 @@
 import childProcess from 'child_process';
+import path from 'path';
 import db from './db';
+
+/**
+ * Get POSIX path on any platform
+ * @param {string} pathValue
+ */
+export const getPosixPath = (pathValue) => (
+  pathValue.split(path.sep).join(path.posix.sep)
+);
 
 /**
  * Get video thumb from db (or create and get)
@@ -59,4 +68,4 @@ export const listWindowsDrives = () => new Promise((resolve, reject) => {
   });
 });
 
-export default { getVideoThumb, listWindowsDrives };
+export default { getPosixPath, getVideoThumb, listWindowsDrives };

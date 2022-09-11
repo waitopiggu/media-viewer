@@ -56,7 +56,8 @@ export default () => {
     if (path !== directory) try {
       const stats = statSync(path);
       if (existsSync(path) && !stats.isFile()) {
-        dispatch(actions.directory.set(path));
+        const next = util.getPosixPath(path);
+        dispatch(actions.directory.set(next));
       }
     } catch (error) {
       console.error(error);

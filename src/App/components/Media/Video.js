@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { actions } from '../../store';
@@ -8,7 +8,7 @@ import { appBarHeight, directoryListWidth } from '../../shared/variables'
 import Controls from './Controls';
 
 /**
- * Video Component
+ * Media Video Component
  */
 export default () => {
   const dispatch = useDispatch()
@@ -47,7 +47,7 @@ export default () => {
     }
   };
 
-  const onVideoStateChanging = () => {
+  const onStateChanging = () => {
     if (videoRef.current) {
       videoTime.current = videoRef.current.currentTime;
     }
@@ -72,28 +72,19 @@ export default () => {
   }, [store, videoAutoplay, videoLoop]);
 
   return (
-    <Box
-      sx={{
-        width: `calc(100% - ${directoryListWidth}px)`,
-        height: `calc(100vh - ${appBarHeight * 2}px)`,
-      }}
-    >
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-        sx={{ height: '100%', overflow: 'auto' }}
-      >
-        <Video
-          autoPlay={videoAutoplay}
-          controls
-          loop={videoLoop}
-          onVolumeChange={onVolumeChange}
-          ref={videoRef}
-          src={media.path}
-        />
-      </Grid>
-      <Controls menuItems={menuItems} onVideoStateChanging={onVideoStateChanging} />
+    <Box sx={{
+      width: `calc(100% - ${directoryListWidth}px)`,
+      height: `calc(100vh - ${appBarHeight * 2}px)`,
+    }}>
+      <Video
+        autoPlay={videoAutoplay}
+        controls
+        loop={videoLoop}
+        onVolumeChange={onVolumeChange}
+        ref={videoRef}
+        src={media.path}
+      />
+      <Controls menuItems={menuItems} onVideoStateChanging={onStateChanging} />
     </Box>
   );
 };
