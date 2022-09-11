@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { Box, Grid } from '@mui/material';
+import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { actions } from '../../../store';
-import { appBarHeight, directoryListWidth } from '../../../shared/variables'
+import { actions } from '../../store';
+import { appBarHeight, directoryListWidth } from '../../shared/variables'
 import Controls from './Controls';
 
 /**
@@ -25,6 +26,19 @@ export default () => {
     width: '100%',
     height: '100%',
   });
+
+  const menuItems = React.useMemo(() => [
+    {
+      Icon: videoAutoplay ? ToggleOn : ToggleOff,
+      onClick: () => dispatch(actions.video.merge({ autoplay: !videoAutoplay })),
+      label: 'Autoplay',
+    },
+    {
+      Icon: videoLoop ? ToggleOn : ToggleOff,
+      onClick: () => dispatch(actions.video.merge({ loop: !videoLoop })),
+      label: 'Loop',
+    },
+  ], [videoAutoplay, videoLoop]);
 
   const onVolumeChange = () => {
     if (videoRef.current) {
@@ -79,7 +93,7 @@ export default () => {
           src={media.path}
         />
       </Grid>
-      <Controls onVideoStateChanging={onVideoStateChanging} />
+      <Controls menuItems={menuItems} onVideoStateChanging={onVideoStateChanging} />
     </Box>
   );
 };

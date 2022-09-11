@@ -32,7 +32,8 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  blacklist: [slices.files.name, slices.thumbs.name],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

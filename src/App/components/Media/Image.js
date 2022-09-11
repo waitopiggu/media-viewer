@@ -1,8 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@mui/material';
+import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { appBarHeight, directoryListWidth } from '../../../shared/variables';
+import { actions } from '../../store';
+import { appBarHeight, directoryListWidth } from '../../shared/variables';
 import Controls from './Controls';
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
  */
 export default () => {
   const boxRef = React.useRef(0);
+  const dispatch = useDispatch()
   const image = useSelector((state) => state.image);
   const media = useSelector((state) => state.media);
   const [state, setState] = React.useState({ ...initialState });
@@ -28,6 +31,24 @@ export default () => {
     height: image.fit === 'contain' ? '100%' : 'auto',
     objectFit: 'contain',
   });
+
+  const menuItems = React.useMemo(() => [
+    {
+      Icon: image.fit === 'none' ? RadioButtonChecked : RadioButtonUnchecked,
+      onClick: () => dispatch(actions.image.merge({ fit: 'none' })),
+      label: 'Fit None',
+    },
+    {
+      Icon: image.fit === 'contain' ? RadioButtonChecked : RadioButtonUnchecked,
+      onClick: () => dispatch(actions.image.merge({ fit: 'contain' })),
+      label: 'Fit Contain',
+    },
+    {
+      Icon: image.fit === 'width' ? RadioButtonChecked : RadioButtonUnchecked,
+      onClick: () => dispatch(actions.image.merge({ fit: 'width' })),
+      label: 'Fit Width',
+    },
+  ], [image]);
 
   React.useEffect(() => {
     if (boxRef.current) {
@@ -62,6 +83,11 @@ export default () => {
       }}
     >
       <Box
+        onMouseDown={onMouseDown}
+        onMouseLeave={onMouseUp}
+        onMouseMove={onMouseMove}
+        onMouseOut={onMouseUp}
+        onMouseUp={onMouseUp}
         ref={boxRef}
         sx={{
           width: '100%',
@@ -69,15 +95,9 @@ export default () => {
           overflow: 'auto',
         }}
       >
-        <Img
-          draggable={false}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          src={media.path}
-        />
+        <Img draggable={false} src={media.path} />
       </Box>
-      <Controls />
+      <Controls menuItems={menuItems} />
     </Box>
   );
 };

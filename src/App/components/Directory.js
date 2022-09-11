@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { dirname } from 'path';
 import { find } from 'lodash';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -28,6 +28,12 @@ export default () => {
   const media = useSelector((state) => state.media);
   const thumbs = useSelector((state) => state.thumbs);
   const listRef = React.useRef(0);
+  const store = useStore();
+
+  React.useEffect(() => {
+    const storeDirectory = store.getState().directory;
+    dispatch(actions.directory.set(storeDirectory))
+  }, []);
 
   const makeItemClick = (item) => () => {
     if (item.isDirectory) {
@@ -40,10 +46,10 @@ export default () => {
   const onListRef = React.useCallback((listEl) => {
     listRef.current = listEl;
     if (listRef.current && media) {
-      const file = find(files.list, (item) => media.name === item.name);
+      const file = find(files, (item) => media.name === item.name);
       file && listRef.current.scrollToItem(file.index, 'smart');
     }
-  }, [media]);
+  }, [files, media]);
 
   const onParentDirClick = () => {
     dispatch(actions.directory.set(dirname(directory)));
@@ -52,7 +58,6 @@ export default () => {
 
   const renderRow = ({ data, index, style }) => {
     const file = data[index];
-
     return (
       <ListItem
         component="div"
