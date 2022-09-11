@@ -2,7 +2,7 @@
 
 WD="$(pwd)"
 
-APP_BIN_WIN=web-media-viewer.exe
+APP_BIN_WIN=media-viewer.exe
 ELECTRON_BIN_WIN=electron.exe
 
 DIST_DIR=$WD/dist
