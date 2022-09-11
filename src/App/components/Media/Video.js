@@ -16,6 +16,7 @@ export default () => {
   const media = useSelector((state) => state.media);
   const videoAutoplay = useSelector((state) => state.video.autoplay);
   const videoLoop = useSelector((state) => state.video.loop);
+  const videoPlaybackRate = useSelector((state) => state.video.playbackRate);
   const videoRef = React.useRef(0);
   const videoTime = React.useRef(0);
 
@@ -40,36 +41,39 @@ export default () => {
     },
   ], [videoAutoplay, videoLoop]);
 
-  const onVolumeChange = () => {
-    if (videoRef.current) {
-      const { muted, volume } = videoRef.current;
-      dispatch(actions.video.merge({ muted, volume }));
-    }
-  };
-
-  const onStateChanging = () => {
+  const onVideoAttrChanging = () => {
     if (videoRef.current) {
       videoTime.current = videoRef.current.currentTime;
     }
   };
 
-  const setVideoStateAttr = React.useCallback(() => {
+  const makeVideoAttrStateChange = (attrs) => () => {
+    if (videoRef.current) {
+      const next = attrs.reduce((payload, attrName) => ({
+        ...payload, [attrName]: videoRef.current[attrName],
+      }), {});
+      dispatch(actions.video.merge(next));
+    }
+  };
+
+  const setVideoAttr = React.useCallback(() => {
     if (videoRef.current) {
       const state = store.getState();
       const video = state.video;
       videoRef.current.muted = video.muted;
+      videoRef.current.playbackRate = video.playbackRate;
       videoRef.current.volume = video.volume;
     }
-  }, [store]);
+  }, []);
 
-  React.useEffect(setVideoStateAttr, [media, store]);
+  React.useEffect(setVideoAttr, [media, store]);
 
   React.useEffect(() => {
-    setVideoStateAttr();
+    setVideoAttr();
     if (videoRef.current && videoTime.current) {
       videoRef.current.currentTime = videoTime.current;
     }
-  }, [store, videoAutoplay, videoLoop]);
+  }, [videoAutoplay, videoLoop, videoPlaybackRate]);
 
   return (
     <Box sx={{
@@ -80,11 +84,12 @@ export default () => {
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
-        onVolumeChange={onVolumeChange}
+        onRateChange={makeVideoAttrStateChange(['playbackRate'])}
+        onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
         ref={videoRef}
         src={media.path}
       />
-      <Controls menuItems={menuItems} onVideoStateChanging={onStateChanging} />
+      <Controls menuItems={menuItems} onVideoAttrChanging={onVideoAttrChanging} />
     </Box>
   );
 };

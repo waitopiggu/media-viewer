@@ -10,17 +10,17 @@ import { useFileNavigation } from '../../shared/hooks';
 /**
  * Media Controls Component
  */
-export default ({ menuItems, onVideoStateChanging }) => {
+export default ({ menuItems, onVideoAttrChanging }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [onPreviousFile, onNextFile] = useFileNavigation();
 
   const makeMenuItemClick = (onClick) => () => {
-    onVideoStateChanging && onVideoStateChanging();
+    onVideoAttrChanging && onVideoAttrChanging();
     onClick && onClick();
     setAnchorEl(null);
   };
 
-  const mapMenuItem = ({ action, Icon, label, onClick }, index) => (
+  const mapMenuItem = ({ Icon, label, onClick }, index) => (
     <MenuItem key={index} onClick={makeMenuItemClick(onClick)}>
         <ListItemIcon><Icon fontSize="small" /></ListItemIcon>
         <ListItemText>{label}</ListItemText>
