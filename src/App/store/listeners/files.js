@@ -1,5 +1,4 @@
 import { readdirSync, statSync } from 'fs';
-import { sortBy } from 'lodash';
 import mime from 'mime-types';
 import slices from '../slices';
 
@@ -28,8 +27,7 @@ export default [
         //console.error(error);
       }
 
-      const nextSorted = sortBy(next, ({ name }) => name.toLowerCase());
-      listenerApi.dispatch(slices.files.actions.set(nextSorted));
+      listenerApi.dispatch(slices.files.actions.set(next));
     },
   },
 ];
