@@ -10,12 +10,11 @@ import { useFileNavigation } from '../../shared/hooks';
 /**
  * Media Controls Component
  */
-export default ({ menuItems, onVideoAttrChanging }) => {
+export default ({ menuItems }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [onPreviousFile, onNextFile] = useFileNavigation();
 
   const makeMenuItemClick = (onClick) => () => {
-    onVideoAttrChanging && onVideoAttrChanging();
     onClick && onClick();
     setAnchorEl(null);
   };

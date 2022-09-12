@@ -39,14 +39,9 @@ export default () => {
     },
   ], [videoAutoplay, videoLoop]);
 
-  const onVideoAttrChanging = () => {
-    if (videoRef.current) {
-      videoTime.current = videoRef.current.currentTime;
-    }
-  };
-
   const makeVideoAttrStateChange = (attrs) => () => {
     if (videoRef.current) {
+      videoTime.current = videoRef.current.currentTime;
       const next = attrs.reduce((payload, attrName) => ({
         ...payload, [attrName]: videoRef.current[attrName],
       }), {});
@@ -59,7 +54,6 @@ export default () => {
       const state = store.getState();
       const video = state.video;
       videoRef.current.muted = video.muted;
-      videoRef.current.playbackRate = video.playbackRate;
       videoRef.current.volume = video.volume;
     }
   }, []);
@@ -79,12 +73,11 @@ export default () => {
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
-        onRateChange={makeVideoAttrStateChange(['playbackRate'])}
         onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
         ref={videoRef}
         src={media.path}
       />
-      <Controls menuItems={menuItems} onVideoAttrChanging={onVideoAttrChanging} />
+      <Controls menuItems={menuItems} />
     </>
   );
 };
