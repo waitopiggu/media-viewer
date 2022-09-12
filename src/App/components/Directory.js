@@ -16,7 +16,10 @@ import {
 } from '@mui/material';
 import { DriveFolderUpload, FolderOutlined } from '@mui/icons-material';
 import { actions } from '../store';
-import { directoryListWidth } from '../shared/variables';
+import { appBarHeight, directoryListWidth } from '../shared/variables';
+
+const LIST_ITEM_HEIGHT = 56;
+const LIST_OVERSCAN_COUNT = 5;
 
 /**
  * Directory List Component
@@ -85,7 +88,7 @@ export default () => {
   return (
     <Box sx={{
       width: directoryListWidth,
-      height: 'calc(100vh - 48px - 56px)',
+      height: `calc(100vh - ${appBarHeight + LIST_ITEM_HEIGHT}px)`,
     }}>
       <ListItem component="div" disablePadding>
         <ListItemButton onClick={onParentDirClick}>
@@ -103,8 +106,8 @@ export default () => {
             width={width}
             itemCount={files.length}
             itemData={files}
-            itemSize={57}
-            overscanCount={5}
+            itemSize={LIST_ITEM_HEIGHT}
+            overscanCount={LIST_OVERSCAN_COUNT}
             ref={onListRef}
           >
             {renderRow}
