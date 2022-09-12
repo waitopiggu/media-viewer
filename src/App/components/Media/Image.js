@@ -1,11 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box } from '@mui/material';
 import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll'
 import { actions } from '../../store';
-import { appBarHeight, directoryListWidth } from '../../shared/variables';
+import { appBarHeight } from '../../shared/variables';
 import Controls from './Controls';
 
 /**
@@ -48,14 +47,11 @@ export default () => {
   ], [image]);
 
   return (
-    <Box sx={{
-      width: `calc(100% - ${directoryListWidth}px)`,
-      height: `calc(100vh - ${appBarHeight}px)`,
-    }}>
+    <>
       <ImgScrollContainer hideScrollbars={false}>
         <Img draggable={false} src={media.path} />
       </ImgScrollContainer>
       <Controls menuItems={menuItems} />
-    </Box>
+    </>
   );
 };

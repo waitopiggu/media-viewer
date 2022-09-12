@@ -1,10 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
-import { Box } from '@mui/material';
 import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { actions } from '../../store';
-import { appBarHeight, directoryListWidth } from '../../shared/variables'
+import { appBarHeight } from '../../shared/variables';
 import Controls from './Controls';
 
 /**
@@ -21,11 +20,10 @@ export default () => {
   const videoTime = React.useRef(0);
 
   const Video = styled('video')({
+    display: 'block',
     backgroundColor: 'black',
-    maxWidth: '100%',
-    maxHeight: '100%',
     width: '100%',
-    height: '100%',
+    height: `calc(100% - ${appBarHeight}px)`,
   });
 
   const menuItems = React.useMemo(() => [
@@ -76,10 +74,7 @@ export default () => {
   }, [videoAutoplay, videoLoop, videoPlaybackRate]);
 
   return (
-    <Box sx={{
-      width: `calc(100% - ${directoryListWidth}px)`,
-      height: `calc(100vh - ${appBarHeight * 2}px)`,
-    }}>
+    <>
       <Video
         autoPlay={videoAutoplay}
         controls
@@ -90,6 +85,6 @@ export default () => {
         src={media.path}
       />
       <Controls menuItems={menuItems} onVideoAttrChanging={onVideoAttrChanging} />
-    </Box>
+    </>
   );
 };
