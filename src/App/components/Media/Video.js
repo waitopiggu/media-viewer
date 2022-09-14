@@ -21,7 +21,6 @@ export default () => {
 
   const Video = styled('video')({
     display: 'block',
-    backgroundColor: 'black',
     width: '100%',
     height: `calc(100% - ${appBarHeight}px)`,
   });

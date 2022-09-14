@@ -12,16 +12,14 @@ export default [
       for (let name of readdirSync(directory)) try {
         const path = `${directory}/${name}`;
         const stats = statSync(path);
-
-        const contentType = mime.lookup(path);
-        const index = next.length;
+        const type = mime.lookup(path);
 
         const isDirectory = !stats.isFile();
-        const isImage = /image\/*/.test(contentType);
-        const isVideo = /video\/*/.test(contentType);
+        const isImage = /image\/*/.test(type);
+        const isVideo = /video\/*/.test(type);
 
         (isDirectory || isImage || isVideo) && next.push({
-          directory, name, index, isDirectory, isImage, isVideo, path,
+          directory, name, isDirectory, isImage, isVideo, path, type,
         });
       } catch (error) {
         //console.error(error);

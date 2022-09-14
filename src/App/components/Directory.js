@@ -1,21 +1,25 @@
 import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
+import { reverse, sortBy } from 'lodash';
 import { dirname } from 'path';
-import { find } from 'lodash';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
 import {
   Avatar,
   Box,
   Divider,
+  IconButton,
   ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Menu,
+  MenuItem,
   Typography,
 } from '@mui/material';
-import { DriveFolderUpload, FolderOutlined } from '@mui/icons-material';
+import { DriveFolderUpload, FolderOutlined, Sort } from '@mui/icons-material';
 import { actions } from '../store';
+import { useMediaFileIndex } from '../shared/hooks';
 import { appBarHeight, directoryListWidth } from '../shared/variables';
 
 const LIST_ITEM_HEIGHT = 56;
@@ -25,18 +29,39 @@ const LIST_OVERSCAN_COUNT = 5;
  * Directory List Component
  */
 export default () => {
-  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const directory = useSelector((state) => state.directory);
-  const files  = useSelector((state) => state.files);
-  const media = useSelector((state) => state.media);
-  const thumbs = useSelector((state) => state.thumbs);
+  const dispatch = useDispatch();
+  const files = useSelector((state) => state.files);
   const listRef = React.useRef(0);
+  const media = useSelector((state) => state.media);
+  const mediaFileIndex = useMediaFileIndex();
+  const thumbs = useSelector((state) => state.thumbs);
+  const [sort, setSort] = React.useState('name');
   const store = useStore();
 
   React.useEffect(() => {
     const storeDirectory = store.getState().directory;
     dispatch(actions.directory.set(storeDirectory))
   }, []);
+
+  const onSortFiles = React.useCallback((value) => {
+    let next = sort === value ? reverse(files.slice()) : sortBy(files, [value]);
+    dispatch(actions.files.set(next));
+    setSort(value);
+    setAnchorEl(null);
+  }, [files, sort]);
+
+  const menuItems = React.useMemo(() => [
+    {
+      label: 'Sort by name',
+      onClick: () => onSortFiles('name'),
+    },
+    {
+      label: 'Sort by type',
+      onClick: () => onSortFiles('type'),
+    },
+  ], [onSortFiles]);
 
   const makeItemClick = (item) => () => {
     if (item.isDirectory) {
@@ -48,11 +73,14 @@ export default () => {
 
   const onListRef = React.useCallback((listEl) => {
     listRef.current = listEl;
-    if (listRef.current && media) {
-      const file = find(files, (item) => media.name === item.name);
-      file && listRef.current.scrollToItem(file.index, 'smart');
+    if (listRef.current && mediaFileIndex >= 0) {
+      listRef.current.scrollToItem(mediaFileIndex, 'smart');
     }
-  }, [files, media]);
+  }, [files, mediaFileIndex]);
+
+  const onMenuClose = () => setAnchorEl(null);
+
+  const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
   const onParentDirClick = () => {
     dispatch(actions.directory.set(dirname(directory)));
@@ -90,7 +118,9 @@ export default () => {
       width: directoryListWidth,
       height: `calc(100vh - ${appBarHeight + LIST_ITEM_HEIGHT}px)`,
     }}>
-      <ListItem component="div" disablePadding>
+      <ListItem component="div" disablePadding secondaryAction={(
+        <IconButton onClick={onMenuOpen}><Sort /></IconButton>
+      )}>
         <ListItemButton onClick={onParentDirClick}>
           <ListItemAvatar>
             <Avatar><DriveFolderUpload /></Avatar>
@@ -114,6 +144,11 @@ export default () => {
           </FixedSizeList>
         )}
       </AutoSizer>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
+        {menuItems.map(({ label, onClick }, index) => (
+          <MenuItem key={index} onClick={onClick}>{label}</MenuItem>
+        ))}
+      </Menu>
     </Box>
   );
 }

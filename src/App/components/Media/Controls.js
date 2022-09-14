@@ -1,18 +1,29 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   AppBar, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar,
 } from '@mui/material';
 import {
   KeyboardArrowLeft, KeyboardArrowRight, MenuOpen,
 } from '@mui/icons-material';
-import { useFileNavigation } from '../../shared/hooks';
+import { useFileNavigation, useMediaFileIndex } from '../../shared/hooks';
 
 /**
  * Media Controls Component
  */
 export default ({ menuItems }) => {
+  const files = useSelector((state) => state.files);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [onPreviousFile, onNextFile] = useFileNavigation();
+  const mediaFileIndex = useMediaFileIndex();
+
+  const isMediaFirstFile = React.useMemo(() => (
+    mediaFileIndex <= 0
+  ), [mediaFileIndex]);
+
+  const isMediaLastFile = React.useMemo(() => (
+    mediaFileIndex >= files.length - 1
+  ), [files, mediaFileIndex]);
 
   const makeMenuItemClick = (onClick) => () => {
     onClick && onClick();
@@ -34,13 +45,13 @@ export default ({ menuItems }) => {
     <AppBar color='transparent' elevation={0} position="relative">
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
-          <IconButton onClick={onPreviousFile}>
+          <IconButton disabled={isMediaFirstFile} onClick={onPreviousFile}>
             <KeyboardArrowLeft />
           </IconButton>
           <IconButton onClick={onMenuOpen}>
             <MenuOpen />
           </IconButton>
-          <IconButton onClick={onNextFile}>
+          <IconButton disabled={isMediaLastFile} onClick={onNextFile}>
             <KeyboardArrowRight />
           </IconButton>
         </Grid>

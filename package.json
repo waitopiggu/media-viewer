@@ -8,7 +8,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
-    "@mui/material": "^5.10.3",
+    "@mui/material": "^5.10.5",
     "@redux-devtools/core": "^3.13.1",
     "@redux-devtools/dock-monitor": "^3.0.1",
     "@redux-devtools/log-monitor": "^4.0.1",
@@ -21,7 +21,7 @@
     "react-dom": "^18.2.0",
     "react-indiana-drag-scroll": "^2.2.0",
     "react-redux": "^8.0.2",
-    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.7",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0"

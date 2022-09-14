@@ -97,11 +97,7 @@ export default () => {
           />
         )}
       </Toolbar>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={onMenuClose}
-      >
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
         {drives.map((driveName, index) => (
           <MenuItem key={index} onClick={makeDriveChange(driveName)}>
             {driveName}
