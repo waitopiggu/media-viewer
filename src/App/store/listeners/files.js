@@ -14,12 +14,13 @@ export default [
         const stats = statSync(path);
         const type = mime.lookup(path);
 
+        const date = stats.birthtime;
         const isDirectory = !stats.isFile();
         const isImage = /image\/*/.test(type);
         const isVideo = /video\/*/.test(type);
 
         (isDirectory || isImage || isVideo) && next.push({
-          directory, name, isDirectory, isImage, isVideo, path, type,
+          date, directory, name, isDirectory, isImage, isVideo, path, type,
         });
       } catch (error) {
         //console.error(error);

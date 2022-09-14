@@ -22,8 +22,9 @@ import { actions } from '../store';
 import { useMediaFileIndex } from '../shared/hooks';
 import { appBarHeight, directoryListWidth } from '../shared/variables';
 
-const LIST_ITEM_HEIGHT = 56;
+const LIST_ITEM_HEIGHT = 72;
 const LIST_OVERSCAN_COUNT = 5;
+const LIST_PARENT_DIR_HEIGHT = 56;
 
 /**
  * Directory List Component
@@ -45,23 +46,33 @@ export default () => {
     dispatch(actions.directory.set(storeDirectory))
   }, []);
 
-  const onSortFiles = React.useCallback((value) => {
-    let next = sort === value ? reverse(files.slice()) : sortBy(files, [value]);
-    dispatch(actions.files.set(next));
-    setSort(value);
+  const onSortFiles = React.useCallback((value, func) => {
+    let nextFiles = (
+      sort === value ? reverse(files.slice()) : sortBy(files, func || value)
+    );
+    dispatch(actions.files.set(nextFiles));
     setAnchorEl(null);
+    setSort(value);
   }, [files, sort]);
 
   const menuItems = React.useMemo(() => [
     {
       label: 'Sort by name',
       onClick: () => onSortFiles('name'),
+      selected: sort === 'name',
+    },
+    {
+      func: (value) => new Date(value),
+      label: 'Sort by date',
+      onClick: () => onSortFiles('date'),
+      selected: sort === 'date',
     },
     {
       label: 'Sort by type',
       onClick: () => onSortFiles('type'),
+      selected: sort === 'type',
     },
-  ], [onSortFiles]);
+  ], [onSortFiles, sort]);
 
   const makeItemClick = (item) => () => {
     if (item.isDirectory) {
@@ -105,9 +116,10 @@ export default () => {
               <FolderOutlined />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText>
-            <Typography noWrap>{file.name}</Typography>
-          </ListItemText>
+          <ListItemText
+            primary={(<Typography noWrap>{file.name}</Typography>)}
+            secondary={file.date.toLocaleString()}
+          />
         </ListItemButton>
       </ListItem>
     );
@@ -116,7 +128,7 @@ export default () => {
   return (
     <Box sx={{
       width: directoryListWidth,
-      height: `calc(100vh - ${appBarHeight + LIST_ITEM_HEIGHT}px)`,
+      height: `calc(100vh - ${appBarHeight + LIST_PARENT_DIR_HEIGHT}px)`,
     }}>
       <ListItem component="div" disablePadding secondaryAction={(
         <IconButton onClick={onMenuOpen}><Sort /></IconButton>
@@ -145,8 +157,10 @@ export default () => {
         )}
       </AutoSizer>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
-        {menuItems.map(({ label, onClick }, index) => (
-          <MenuItem key={index} onClick={onClick}>{label}</MenuItem>
+        {menuItems.map(({ label, onClick, selected }, index) => (
+          <MenuItem key={index} onClick={onClick} selected={selected}>
+            {label}
+          </MenuItem>
         ))}
       </Menu>
     </Box>
