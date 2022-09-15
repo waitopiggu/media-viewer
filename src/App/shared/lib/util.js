@@ -3,6 +3,24 @@ import path from 'path';
 import db from './db';
 
 /**
+ * Get size like object-fit: cover
+ * @param {number} w
+ * @param {number} h
+ * @param {number} targetW
+ * @param {number} targetH
+ */
+export const getCoverSize = (w, h, targetW, targetH) => {
+  const ratio = w / h;
+  let width = targetW;
+  let height = targetH / ratio;
+  if (height > targetH) {
+    height = targetH;
+    width = height * ratio;
+  }
+  return { width, height };
+};
+
+/**
  * Get POSIX path on any platform
  * @param {string} pathValue
  */
@@ -29,14 +47,10 @@ export const getVideoThumb = async (directory, path) => {
     video.currentTime = 0.0;
   });
 
-  const ratio = video.videoWidth / video.videoHeight;
+  const { videoWidth, videoHeight } = video;
   const size = 96;
-  let width = size;
-  let height = size / ratio;
-  if (height > size) {
-    height = size;
-    width = height * ratio;
-  }
+  const { width, height } = getCoverSize(videoWidth, videoHeight, size, size);
+
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -68,4 +82,4 @@ export const listWindowsDrives = () => new Promise((resolve, reject) => {
   });
 });
 
-export default { getPosixPath, getVideoThumb, listWindowsDrives };
+export default { getCoverSize, getPosixPath, getVideoThumb, listWindowsDrives };
