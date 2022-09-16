@@ -17,12 +17,28 @@ export default () => {
   const videoLoop = useSelector((state) => state.video.loop);
   const videoPlaybackRate = useSelector((state) => state.video.playbackRate);
   const videoRef = React.useRef(0);
+  const videoBgRef = React.useRef(0);
   const videoTime = React.useRef(0);
 
   const Video = styled('video')({
     display: 'block',
     width: '100%',
     height: `calc(100% - ${appBarHeight}px)`,
+  });
+
+  const VideoBg = styled('canvas')({
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    filter: 'blur(24px)',
+  });
+
+  const VideoBgContainer = styled('div')({
+    width: '100%',
+    height: `calc(100% - ${appBarHeight * 2}px)`,
+    position: 'absolute',
+    overflow: 'hidden',
+    zIndex: -1,
   });
 
   const menuItems = React.useMemo(() => [
@@ -48,6 +64,28 @@ export default () => {
     }
   };
 
+  const onLoadedMetadata = React.useCallback((event) => {
+    const video = event.target;
+    const canvas = document.getElementById('video-bg');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    let paused = false;
+    const draw = () => {
+      ctx.drawImage(video, 0, 0);
+      if (paused) return;
+      requestAnimationFrame(draw);
+    };
+    video.addEventListener('pause', () => {
+      paused = true;
+    });
+    video.addEventListener('play', () => {
+      paused = false;
+      draw();
+    });
+    video.addEventListener('seeking', draw);
+  }, []);
+
   const setVideoAttr = React.useCallback(() => {
     if (videoRef.current) {
       const state = store.getState();
@@ -68,10 +106,14 @@ export default () => {
 
   return (
     <>
+      <VideoBgContainer>
+        <VideoBg id="video-bg" />
+      </VideoBgContainer>
       <Video
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
+        onLoadedMetadata={onLoadedMetadata}
         onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
         ref={videoRef}
         src={media.path}

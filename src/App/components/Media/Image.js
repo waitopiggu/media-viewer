@@ -21,6 +21,23 @@ export default () => {
     width: /contain|width/.test(image.fit) ? '100%' : 'auto',
     height: image.fit === 'contain' ? '100%' : 'auto',
     objectFit: 'contain',
+    userSelect: 'none',
+  });
+
+  const ImgBg = styled('img')({
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    filter: 'blur(24px)',
+    userSelect: 'none',
+  });
+
+  const ImgBgContainer = styled('div')({
+    width: '100%',
+    height: `calc(100% - ${appBarHeight * 2}px)`,
+    position: 'absolute',
+    overflow: 'hidden',
+    zIndex: -1,
   });
 
   const ImgScrollContainer = styled(ScrollContainer)({
@@ -48,6 +65,9 @@ export default () => {
 
   return (
     <>
+      <ImgBgContainer>
+        <ImgBg draggable={false} src={media.path} />
+      </ImgBgContainer>
       <ImgScrollContainer hideScrollbars={false}>
         <Img draggable={false} src={media.path} />
       </ImgScrollContainer>
