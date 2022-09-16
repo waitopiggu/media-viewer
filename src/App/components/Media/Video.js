@@ -16,7 +16,6 @@ export default () => {
   const media = useSelector((state) => state.media);
   const videoAutoplay = useSelector((state) => state.video.autoplay);
   const videoLoop = useSelector((state) => state.video.loop);
-  const videoPlaybackRate = useSelector((state) => state.video.playbackRate);
   const videoRef = React.useRef(0);
   const videoBgRef = React.useRef(0);
   const videoTime = React.useRef(0);
@@ -62,19 +61,16 @@ export default () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
+    ctx.filter = 'blur(16px)';
     let playing = false;
     const draw = () => {
-      ctx.filter = 'blur(16px)';
       ctx.drawImage(video, 0, 0);
       playing && requestAnimationFrame(draw);
     };
-    video.addEventListener('pause', () => {
-      playing = false;
-    });
-    video.addEventListener('play', () => {
-      playing = true;
-      draw();
-    });
+    video.addEventListener('pause', () => playing = false);
+    video.addEventListener('play', () => playing = true);
+    video.addEventListener('seeked', draw);
+    video.addEventListener('seeking', draw);
     video.addEventListener('timeupdate', draw);
     video.currentTime = 0.0;
   }, []);
@@ -95,7 +91,7 @@ export default () => {
     if (videoRef.current && videoTime.current) {
       videoRef.current.currentTime = videoTime.current;
     }
-  }, [videoAutoplay, videoLoop, videoPlaybackRate]);
+  }, [videoAutoplay, videoLoop]);
 
   return (
     <>
