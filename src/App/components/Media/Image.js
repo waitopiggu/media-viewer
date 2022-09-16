@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll'
 import { actions } from '../../store';
 import { appBarHeight } from '../../shared/variables';
+import BgContainer from './BgContainer';
 import Controls from './Controls';
 
 /**
@@ -27,17 +28,10 @@ export default () => {
   const ImgBg = styled('img')({
     width: '100%',
     height: '100%',
+    transform: 'scale(1.1)',
     objectFit: 'cover',
-    filter: 'blur(24px)',
+    filter: 'blur(16px)',
     userSelect: 'none',
-  });
-
-  const ImgBgContainer = styled('div')({
-    width: '100%',
-    height: `calc(100% - ${appBarHeight * 2}px)`,
-    position: 'absolute',
-    overflow: 'hidden',
-    zIndex: -1,
   });
 
   const ImgScrollContainer = styled(ScrollContainer)({
@@ -65,9 +59,9 @@ export default () => {
 
   return (
     <>
-      <ImgBgContainer>
+      <BgContainer>
         <ImgBg draggable={false} src={media.path} />
-      </ImgBgContainer>
+      </BgContainer>
       <ImgScrollContainer hideScrollbars={false}>
         <Img draggable={false} src={media.path} />
       </ImgScrollContainer>

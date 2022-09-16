@@ -4,6 +4,7 @@ import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { actions } from '../../store';
 import { appBarHeight } from '../../shared/variables';
+import BgContainer from './BgContainer';
 import Controls from './Controls';
 
 /**
@@ -30,15 +31,6 @@ export default () => {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    filter: 'blur(24px)',
-  });
-
-  const VideoBgContainer = styled('div')({
-    width: '100%',
-    height: `calc(100% - ${appBarHeight * 2}px)`,
-    position: 'absolute',
-    overflow: 'hidden',
-    zIndex: -1,
   });
 
   const menuItems = React.useMemo(() => [
@@ -70,17 +62,17 @@ export default () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
-    let paused = false;
+    let playing = false;
     const draw = () => {
+      ctx.filter = 'blur(16px)';
       ctx.drawImage(video, 0, 0);
-      if (paused) return;
-      requestAnimationFrame(draw);
+      playing && requestAnimationFrame(draw);
     };
     video.addEventListener('pause', () => {
-      paused = true;
+      playing = false;
     });
     video.addEventListener('play', () => {
-      paused = false;
+      playing = true;
       draw();
     });
     video.addEventListener('seeking', draw);
@@ -106,9 +98,9 @@ export default () => {
 
   return (
     <>
-      <VideoBgContainer>
+      <BgContainer>
         <VideoBg id="video-bg" />
-      </VideoBgContainer>
+      </BgContainer>
       <Video
         autoPlay={videoAutoplay}
         controls

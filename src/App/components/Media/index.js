@@ -15,6 +15,7 @@ export default () => {
     <Box sx={{
       width: `calc(100% - ${directoryListWidth}px)`,
       height: `calc(100vh - ${appBarHeight}px)`,
+      position: 'relative',
     }}>
       {media.isImage && <Image {...media} />}
       {media.isVideo && <Video {...media} />}
