@@ -67,7 +67,7 @@ export default () => {
   };
 
   return (
-    <AppBar color='transparent' elevation={1} position="relative">
+    <AppBar color='transparent' elevation={1}>
       <Toolbar disableGutters variant="dense">
         {IS_WINDOWS_PLATFORM ? (
           <IconButton onClick={onMenuOpen} sx={{ marginX: 2 }}>
