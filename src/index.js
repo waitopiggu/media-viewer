@@ -36,7 +36,12 @@ const minHeight = 600;
       });
 
       mainWindow.loadFile('index.html');
-      process.argv[2] === 'DEV' && mainWindow.webContents.openDevTools();
+
+      if (process.argv[2] === 'DEV') {
+        mainWindow.webContents.openDevTools();
+      } else {
+        mainWindow.removeMenu();
+      }
     };
 
     createWindow();

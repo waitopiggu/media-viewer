@@ -56,7 +56,7 @@ export default () => {
     }
   };
 
-  const onLoadedMetadata = React.useCallback((event) => {
+  const onLoadedData = React.useCallback((event) => {
     const video = event.target;
     const canvas = document.getElementById('video-bg');
     canvas.width = video.videoWidth;
@@ -75,7 +75,8 @@ export default () => {
       playing = true;
       draw();
     });
-    video.addEventListener('seeking', draw);
+    video.addEventListener('timeupdate', draw);
+    video.currentTime = 0.0;
   }, []);
 
   const setVideoAttr = React.useCallback(() => {
@@ -105,7 +106,7 @@ export default () => {
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
-        onLoadedMetadata={onLoadedMetadata}
+        onLoadedData={onLoadedData}
         onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
         ref={videoRef}
         src={media.path}
