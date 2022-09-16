@@ -4,7 +4,6 @@ import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { actions } from '../../store';
 import { appBarHeight } from '../../shared/variables';
-import BgContainer from './BgContainer';
 import Controls from './Controls';
 
 /**
@@ -17,19 +16,12 @@ export default () => {
   const videoAutoplay = useSelector((state) => state.video.autoplay);
   const videoLoop = useSelector((state) => state.video.loop);
   const videoRef = React.useRef(0);
-  const videoBgRef = React.useRef(0);
   const videoTime = React.useRef(0);
 
   const Video = styled('video')({
     display: 'block',
     width: '100%',
     height: `calc(100% - ${appBarHeight}px)`,
-  });
-
-  const VideoBg = styled('canvas')({
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
   });
 
   const menuItems = React.useMemo(() => [
@@ -55,26 +47,6 @@ export default () => {
     }
   };
 
-  const onLoadedData = React.useCallback((event) => {
-    const video = event.target;
-    const canvas = document.getElementById('video-bg');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.filter = 'blur(16px)';
-    let playing = false;
-    const draw = () => {
-      ctx.drawImage(video, 0, 0);
-      playing && requestAnimationFrame(draw);
-    };
-    video.addEventListener('pause', () => playing = false);
-    video.addEventListener('play', () => playing = true);
-    video.addEventListener('seeked', draw);
-    video.addEventListener('seeking', draw);
-    video.addEventListener('timeupdate', draw);
-    video.currentTime = 0.0;
-  }, []);
-
   const setVideoAttr = React.useCallback(() => {
     if (videoRef.current) {
       const state = store.getState();
@@ -95,14 +67,10 @@ export default () => {
 
   return (
     <>
-      <BgContainer>
-        <VideoBg id="video-bg" />
-      </BgContainer>
       <Video
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
-        onLoadedData={onLoadedData}
         onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
         ref={videoRef}
         src={media.path}
