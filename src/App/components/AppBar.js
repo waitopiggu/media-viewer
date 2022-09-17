@@ -2,7 +2,15 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { existsSync, statSync } from 'fs';
 import {
-  AppBar, Avatar, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography,
+  AppBar,
+  Avatar,
+  IconButton,
+  InputBase,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 import { FolderOpen, SaveOutlined, SaveAsOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
@@ -67,12 +75,14 @@ export default () => {
   };
 
   return (
-    <AppBar color='transparent' elevation={1}>
+    <AppBar color="transparent" elevation={1}>
       <Toolbar disableGutters variant="dense">
         {IS_WINDOWS_PLATFORM ? (
-          <IconButton onClick={onMenuOpen} sx={{ marginX: 2 }}>
-            {anchorEl ? <SaveAsOutlined /> : <SaveOutlined />}
-          </IconButton>
+          <Tooltip title="Select Drive">
+            <IconButton onClick={onMenuOpen} sx={{ marginX: 2 }}>
+              {anchorEl ? <SaveAsOutlined /> : <SaveOutlined />}
+            </IconButton>
+          </Tooltip>
         ) : (
           <Avatar>
             <FolderOpen sx={{ marginX: 3 }} />
