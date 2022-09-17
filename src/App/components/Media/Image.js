@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll'
 import { actions } from '../../store';
 import { appBarHeight } from '../../shared/variables';
+import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
 
 /**
@@ -23,6 +24,8 @@ export default () => {
     objectFit: 'contain',
     userSelect: 'none',
   });
+
+  const ImgBg = styled('img')(backgroundStyles);
 
   const ImgScrollContainer = styled(ScrollContainer)({
     width: '100%',
@@ -49,6 +52,9 @@ export default () => {
 
   return (
     <>
+      <Background>
+        <ImgBg draggable={false} src={media.path} />
+      </Background>
       <ImgScrollContainer hideScrollbars={false}>
         <Img draggable={false} src={media.path} />
       </ImgScrollContainer>

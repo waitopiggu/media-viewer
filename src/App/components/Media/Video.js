@@ -4,6 +4,7 @@ import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { actions } from '../../store';
 import { appBarHeight } from '../../shared/variables';
+import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
 
 /**
@@ -16,6 +17,7 @@ export default () => {
   const videoAutoplay = useSelector((state) => state.video.autoplay);
   const videoLoop = useSelector((state) => state.video.loop);
   const videoRef = React.useRef(0);
+  const videoBgRef = React.useRef(0);
   const videoTime = React.useRef(0);
 
   const Video = styled('video')({
@@ -23,6 +25,8 @@ export default () => {
     width: '100%',
     height: `calc(100% - ${appBarHeight}px)`,
   });
+
+  const VideoBg = styled('video')(backgroundStyles);
 
   const menuItems = React.useMemo(() => [
     {
@@ -47,6 +51,26 @@ export default () => {
     }
   };
 
+  const onSync = React.useCallback((event) => {
+    if (videoBgRef.current) {
+      videoBgRef.current.currentTime = event.target.currentTime;
+    }
+  }, []);
+
+  const onPause = React.useCallback((event) => {
+    if (videoBgRef.current) {
+      videoBgRef.current.pause();
+      onSync(event);
+    }
+  }, []);
+
+  const onPlay = React.useCallback((event) => {
+    if (videoBgRef.current) {
+      videoBgRef.current.play();
+      onSync(event);
+    }
+  }, []);
+
   const setVideoAttr = React.useCallback(() => {
     if (videoRef.current) {
       const state = store.getState();
@@ -67,10 +91,17 @@ export default () => {
 
   return (
     <>
+      <Background>
+        <VideoBg src={media.path} ref={videoBgRef} />
+      </Background>
       <Video
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
+        onPause={onPause}
+        onPlay={onPlay}
+        onSeeked={onSync}
+        onSeeking={onSync}
         onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
         ref={videoRef}
         src={media.path}
