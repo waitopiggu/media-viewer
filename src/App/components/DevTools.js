@@ -13,5 +13,5 @@ export default createDevTools(
     defaultIsVisible={false}
   >
     <LogMonitor theme="tomorrow" />
-  </DockMonitor>
+  </DockMonitor>,
 );

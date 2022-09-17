@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { actions } from '../../store';
+import actions from '../../store/actions';
 import { appBarHeight } from '../../shared/variables';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
@@ -10,8 +10,8 @@ import Controls from './Controls';
 /**
  * Media Video Component
  */
-export default () => {
-  const dispatch = useDispatch()
+export default function () {
+  const dispatch = useDispatch();
   const store = useStore();
   const media = useSelector((state) => state.media);
   const videoAutoplay = useSelector((state) => state.video.autoplay);
@@ -31,12 +31,18 @@ export default () => {
   const menuItems = React.useMemo(() => [
     {
       Icon: videoAutoplay ? ToggleOn : ToggleOff,
-      onClick: () => dispatch(actions.video.merge({ autoplay: !videoAutoplay })),
+      onClick: () => {
+        dispatch(actions.video.merge({ autoplay: !videoAutoplay }));
+        videoTime.current = videoRef.current.currentTime;
+      },
       label: 'Autoplay',
     },
     {
       Icon: videoLoop ? ToggleOn : ToggleOff,
-      onClick: () => dispatch(actions.video.merge({ loop: !videoLoop })),
+      onClick: () => {
+        dispatch(actions.video.merge({ loop: !videoLoop }));
+        videoTime.current = videoRef.current.currentTime;
+      },
       label: 'Loop',
     },
   ], [videoAutoplay, videoLoop]);
@@ -75,7 +81,7 @@ export default () => {
   const setVideoAttr = React.useCallback(() => {
     if (videoRef.current) {
       const state = store.getState();
-      const video = state.video;
+      const { video } = state;
       videoRef.current.muted = video.muted;
       videoRef.current.volume = video.volume;
     }
@@ -85,7 +91,7 @@ export default () => {
 
   React.useEffect(() => {
     setVideoAttr();
-    if (videoRef.current && videoTime.current) {
+    if (videoRef.current) {
       videoRef.current.currentTime = videoTime.current;
     }
   }, [videoAutoplay, videoLoop]);
@@ -93,12 +99,19 @@ export default () => {
   return (
     <>
       <Background>
-        <VideoBg muted src={media.path} ref={videoBgRef} />
+        <VideoBg
+          autoPlay={videoAutoplay}
+          loop={videoLoop}
+          muted
+          src={media.path}
+          ref={videoBgRef}
+        />
       </Background>
       <Video
         autoPlay={videoAutoplay}
         controls
         loop={videoLoop}
+        onEnded={onSync}
         onPause={onPause}
         onPlay={onPlay}
         onRateChange={onSync}
@@ -111,4 +124,4 @@ export default () => {
       <Controls menuItems={menuItems} />
     </>
   );
-};
+}

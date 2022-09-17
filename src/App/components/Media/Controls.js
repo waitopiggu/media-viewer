@@ -11,7 +11,7 @@ import { useFileNavigation, useMediaFileIndex } from '../../shared/hooks';
 /**
  * Media Controls Component
  */
-export default ({ menuItems }) => {
+export default function ({ menuItems }) {
   const files = useSelector((state) => state.files);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [onPreviousFile, onNextFile] = useFileNavigation();
@@ -32,8 +32,8 @@ export default ({ menuItems }) => {
 
   const mapMenuItem = ({ Icon, label, onClick }, index) => (
     <MenuItem key={index} onClick={makeMenuItemClick(onClick)}>
-        <ListItemIcon><Icon fontSize="small" /></ListItemIcon>
-        <ListItemText>{label}</ListItemText>
+      <ListItemIcon><Icon fontSize="small" /></ListItemIcon>
+      <ListItemText>{label}</ListItemText>
     </MenuItem>
   );
 
@@ -61,4 +61,4 @@ export default ({ menuItems }) => {
       </Menu>
     </AppBar>
   );
-};
+}

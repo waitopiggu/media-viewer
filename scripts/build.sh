@@ -13,6 +13,9 @@ SCRIPTS_DIR=$WD/scripts
 PACKAGE_JSON=$WD/package.json
 PACKAGE_JSON_CLEANUP=$SCRIPTS_DIR/cleanup-package-json
 
+echo "linting..."
+yarn lint || exit
+
 echo "cleaning dist..."
 rm -rf $DIST_DIR
 

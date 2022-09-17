@@ -10,5 +10,5 @@ export default () => {
 
   return React.useMemo(() => (
     files.findIndex((file) => file.name === media.name)
-  ), [files, media])
+  ), [files, media]);
 };

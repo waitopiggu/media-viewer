@@ -31,16 +31,16 @@ export const getPosixPath = (pathValue) => (
 /**
  * Get video thumb from db (or create and get)
  * @param {string} directory
- * @param {string} path
+ * @param {string} filePath
  */
-export const getVideoThumb = async (directory, path) => {
-  const thumb = await db.get(path);
+export const getVideoThumb = async (directory, filePath) => {
+  const thumb = await db.get(filePath);
   if (thumb) return thumb;
 
   const video = document.createElement('video');
   await new Promise((resolve) => {
     video.addEventListener('loadeddata', resolve);
-    video.src = path;
+    video.src = filePath;
   });
   await new Promise((resolve) => {
     video.addEventListener('seeked', resolve);
@@ -59,9 +59,9 @@ export const getVideoThumb = async (directory, path) => {
   ctx.drawImage(video, 0, 0, width, height);
 
   const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-  await db.add({ dataUrl, directory, path }, 'thumbs');
+  await db.add({ dataUrl, directory, path: filePath }, 'thumbs');
 
-  return await db.get(path);
+  return db.get(filePath);
 };
 
 /**
@@ -73,11 +73,9 @@ export const listWindowsDrives = () => new Promise((resolve, reject) => {
     if (error) {
       reject(error);
     } else {
-      resolve(stdout
-        .split('\r\r\n')
-        .filter((value) => /[A-Za-z]:/.test(value))
-        .map((value) => value.trim())
-      );
+      const lines = stdout.split('\r\r\n').map((line) => line.trim());
+      const drives = lines.filter((value) => /[A-Za-z]:/.test(value));
+      resolve(drives);
     }
   });
 });

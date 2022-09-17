@@ -8,7 +8,7 @@ import Video from './Video';
 /**
  * Media Component
  */
-export default () => {
+export default function () {
   const media = useSelector((state) => state.media);
 
   return media && (media.isImage || media.isVideo) ? (
@@ -21,4 +21,4 @@ export default () => {
       {media.isVideo && <Video {...media} />}
     </Box>
   ) : null;
-};
+}

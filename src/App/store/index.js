@@ -6,15 +6,6 @@ import { DevTools } from '../components';
 import listeners from './listeners';
 import slices from './slices';
 
-export const actions = {
-  directory: slices.directory.actions,
-  files: slices.files.actions,
-  image: slices.image.actions,
-  media: slices.media.actions,
-  thumbs: slices.thumbs.actions,
-  video: slices.video.actions,
-};
-
 const listenerMiddleware = createListenerMiddleware();
 
 listeners.forEach((listenerOptions) => {

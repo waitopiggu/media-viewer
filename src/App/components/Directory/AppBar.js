@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dirname } from 'path';
 import { debounce, reverse, sortBy } from 'lodash';
 import {
-  AppBar, IconButton, InputBase,  Menu, MenuItem, Toolbar, Tooltip,
+  AppBar, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
 } from '@mui/material';
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
-import { actions } from '../../store';
+import actions from '../../store/actions';
 
 const DEBOUNCE_MS = 300;
 
@@ -18,7 +18,7 @@ const buttonStyle = {
 /**
  * Directory AppBar Component
  */
-export default ({ onFileSearch }) => {
+export default function ({ onFileSearch }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
   const directory = useSelector((state) => state.directory);
@@ -27,10 +27,9 @@ export default ({ onFileSearch }) => {
   const [sort, setSort] = React.useState('name');
 
   const onSortFiles = React.useCallback((value, func) => {
-    let nextFiles = (
-      sort === value ? reverse(files.slice()) : sortBy(files, func || value)
-    );
-    dispatch(actions.files.set(nextFiles));
+    dispatch(actions.files.set(
+      sort === value ? reverse(files.slice()) : sortBy(files, func || value),
+    ));
     setAnchorEl(null);
     setSort(value);
   }, [files, sort]);
@@ -95,12 +94,12 @@ export default ({ onFileSearch }) => {
         </Toolbar>
       </AppBar>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
-        {menuItems.map(({ label, onClick, selected }, index) => (
-          <MenuItem key={index} onClick={onClick} selected={selected}>
+        {menuItems.map(({ label, onClick, selected }) => (
+          <MenuItem key={label} onClick={onClick} selected={selected}>
             {label}
           </MenuItem>
         ))}
       </Menu>
     </>
   );
-};
+}

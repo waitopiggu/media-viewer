@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { Box, CssBaseline } from '@mui/material';
@@ -11,7 +11,7 @@ import { AppBar, DevTools, Directory, Media } from './components';
 /**
  * App Component
  */
-const App = () => {
+function App() {
   React.useEffect(() => {
     document.body.style.overflow = 'hidden';
   }, []);
@@ -28,7 +28,7 @@ const App = () => {
       </Box>
     </>
   );
-};
+}
 
 const container = document.getElementById('app-root');
 const root = createRoot(container);
@@ -37,5 +37,5 @@ root.render(
     <PersistGate persistor={persistStore(store)}>
       <App />
     </PersistGate>
-  </Provider>
+  </Provider>,
 );

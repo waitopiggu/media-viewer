@@ -1,6 +1,6 @@
 import { openDB } from 'idb';
 
-export const DB_NAME = 'app-db'
+export const DB_NAME = 'app-db';
 const THUMB_STORE_NAME = 'thumbs';
 
 const dbPromise = openDB(DB_NAME, 1, {
@@ -10,15 +10,8 @@ const dbPromise = openDB(DB_NAME, 1, {
   },
 });
 
-export const add = async (data) => {
-  return (await dbPromise).add(THUMB_STORE_NAME, data);
-};
+export const add = async (data) => (await dbPromise).add(THUMB_STORE_NAME, data);
 
-export const get = async (key) => {
-  return (await dbPromise).get(THUMB_STORE_NAME, key);
-};
+export const get = async (key) => (await dbPromise).get(THUMB_STORE_NAME, key);
 
-export default {
-  add,
-  get,
-};
+export default { add, get };

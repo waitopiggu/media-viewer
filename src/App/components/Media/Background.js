@@ -7,14 +7,14 @@ export const backgroundStyles = {
   height: '100%',
   objectFit: 'cover',
   userSelect: 'none',
-  opacity: 0.6,
+  opacity: 0.8,
 };
 
 const Backdrop = styled('div')({
   width: '100%',
   height: '100%',
   position: 'absolute',
-  backdropFilter: 'blur(16px)',
+  backdropFilter: 'blur(8px)',
   zIndex: 10,
 });
 
@@ -30,9 +30,11 @@ const Container = styled('div')({
 /**
  * Media Background Container
  */
-export default ({ children }) => (
-  <Container>
-    <Backdrop />
-    {children}
-  </Container>
-);
+export default function ({ children }) {
+  return (
+    <Container>
+      <Backdrop />
+      {children}
+    </Container>
+  );
+}

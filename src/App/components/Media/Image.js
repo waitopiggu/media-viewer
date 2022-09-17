@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import ScrollContainer from 'react-indiana-drag-scroll'
-import { actions } from '../../store';
+import ScrollContainer from 'react-indiana-drag-scroll';
+import actions from '../../store/actions';
 import { appBarHeight } from '../../shared/variables';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
@@ -11,8 +11,8 @@ import Controls from './Controls';
 /**
  * Media Image Component
  */
-export default () => {
-  const dispatch = useDispatch()
+export default function () {
+  const dispatch = useDispatch();
   const image = useSelector((state) => state.image);
   const media = useSelector((state) => state.media);
 
@@ -61,4 +61,4 @@ export default () => {
       <Controls menuItems={menuItems} />
     </>
   );
-};
+}

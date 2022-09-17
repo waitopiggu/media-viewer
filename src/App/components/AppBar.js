@@ -2,28 +2,20 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { existsSync, statSync } from 'fs';
 import {
-  AppBar,
-  Avatar,
-  IconButton,
-  InputBase,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Tooltip,
-  Typography,
+  AppBar, Avatar, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
 } from '@mui/material';
 import { FolderOpen, SaveOutlined, SaveAsOutlined } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import actions from '../store/actions';
 import { util } from '../shared/lib';
-import { actions } from '../store';
 
 const IS_WINDOWS_PLATFORM = process.platform === 'win32';
 
 /**
  * AppBar Component
  */
-export default () => {
-  const [anchorEl, setAnchorEl] = React.useState(null)
+export default function () {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const directory = useSelector((state) => state.directory);
   const dispatch = useDispatch();
   const [drives, setDrives] = React.useState([]);
@@ -35,12 +27,10 @@ export default () => {
   });
 
   React.useEffect(() => {
-    if (IS_WINDOWS_PLATFORM) {
-      (async () => {
-        const driveList = await util.listWindowsDrives();
-        driveList.length && setDrives(driveList.map((name) => `${name}/`));
-      })();
-    }
+    IS_WINDOWS_PLATFORM && (async () => {
+      const driveList = await util.listWindowsDrives();
+      driveList.length && setDrives(driveList.map((name) => `${name}/`));
+    })();
   }, []);
 
   const makeDriveChange = (driveName) => () => {
@@ -61,14 +51,16 @@ export default () => {
 
   const onPathSet = (event) => {
     event.preventDefault();
-    if (path !== directory) try {
-      const stats = statSync(path);
-      if (existsSync(path) && !stats.isFile()) {
-        const next = util.getPosixPath(path);
-        dispatch(actions.directory.set(next));
+    if (path !== directory) {
+      try {
+        const stats = statSync(path);
+        if (existsSync(path) && !stats.isFile()) {
+          const next = util.getPosixPath(path);
+          dispatch(actions.directory.set(next));
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
     setEditing(false);
     setPath('');
@@ -108,12 +100,12 @@ export default () => {
         )}
       </Toolbar>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
-        {drives.map((driveName, index) => (
-          <MenuItem key={index} onClick={makeDriveChange(driveName)}>
+        {drives.map((driveName) => (
+          <MenuItem key={driveName} onClick={makeDriveChange(driveName)}>
             {driveName}
           </MenuItem>
         ))}
       </Menu>
     </AppBar>
   );
-};
+}

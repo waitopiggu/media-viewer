@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FolderOutlined } from '@mui/icons-material';
-import { actions } from '../../store';
+import actions from '../../store/actions';
 import { useMediaFileIndex } from '../../shared/hooks';
 import { appBarHeight, directoryListWidth } from '../../shared/variables';
 import AppBar from './AppBar';
@@ -24,8 +24,7 @@ const LIST_OVERSCAN_COUNT = 5;
 /**
  * Directory Component
  */
-export default () => {
-  const directory = useSelector((state) => state.directory);
+export default function () {
   const dispatch = useDispatch();
   const files = useSelector((state) => state.files);
   const [fileSearch, setFileSearch] = React.useState('');
@@ -37,14 +36,12 @@ export default () => {
 
   React.useEffect(() => {
     const storeDirectory = store.getState().directory;
-    dispatch(actions.directory.set(storeDirectory))
+    dispatch(actions.directory.set(storeDirectory));
   }, []);
 
-  const filesSearched = React.useMemo(() => {
-    return fileSearch ? (
-      files.filter((file) => file.name.toLowerCase().includes(fileSearch))
-    ) : files;
-  }, [files, fileSearch]);
+  const filesSearched = React.useMemo(() => (fileSearch ? (
+    files.filter((file) => file.name.toLowerCase().includes(fileSearch))
+  ) : files), [files, fileSearch]);
 
   const makeItemClick = (item) => () => {
     if (item.isDirectory) {

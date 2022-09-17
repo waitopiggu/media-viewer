@@ -1,19 +1,21 @@
 import { filter } from 'lodash';
-import { db, util } from '../../shared/lib';
+import { util } from '../../shared/lib';
 import slices from '../slices';
 
 export default [
   {
     actionCreator: slices.files.actions.set,
     effect: async (action, listenerApi) => {
-      const nextThumbs = {};
+      const files = filter(action.payload, 'isVideo');
+      const next = {};
 
-      for (let file of filter(action.payload, 'isVideo')) {
+      await Promise.all(files.map(async (file) => {
         const thumb = await util.getVideoThumb(file.directory, file.path);
-        nextThumbs[thumb.path] = thumb.dataUrl;
-      }
+        next[thumb.path] = thumb.dataUrl;
+        return Promise.resolve();
+      }));
 
-      listenerApi.dispatch(slices.thumbs.actions.set(nextThumbs));
+      listenerApi.dispatch(slices.thumbs.actions.set(next));
     },
   },
 ];
