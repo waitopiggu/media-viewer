@@ -13,7 +13,7 @@ SCRIPTS_DIR=$WD/scripts
 PACKAGE_JSON=$WD/package.json
 PACKAGE_JSON_CLEANUP=$SCRIPTS_DIR/cleanup-package-json
 
-echo "linting..."
+#echo "linting..."
 yarn lint || exit
 
 echo "cleaning dist..."
@@ -25,7 +25,7 @@ cp -rf  $ELECTRON_DIR $DIST_DIR
 echo "renaming executable..."
 mv -f $DIST_DIR/$ELECTRON_BIN_WIN $DIST_DIR/$APP_BIN_WIN
 
-echo "running webpack..."
+#echo "running webpack..."
 yarn webpack-prod
 
 echo "copying app files..."

@@ -43,6 +43,7 @@
     "webpack-cli": "^4.10.0"
   },
   "scripts": {
+    "build": "bash ./scripts/build.sh",
     "clean": "rm -rf build/ dist/",
     "lint": "eslint ./src/App/**/*.js",
     "start": "electron ./build DEV",
