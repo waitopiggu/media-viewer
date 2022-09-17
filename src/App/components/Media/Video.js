@@ -54,20 +54,21 @@ export default () => {
   const onSync = React.useCallback((event) => {
     if (videoBgRef.current) {
       videoBgRef.current.currentTime = event.target.currentTime;
+      videoBgRef.current.playbackRate = event.target.playbackRate;
     }
   }, []);
 
   const onPause = React.useCallback((event) => {
     if (videoBgRef.current) {
-      videoBgRef.current.pause();
       onSync(event);
+      videoBgRef.current.pause();
     }
   }, []);
 
   const onPlay = React.useCallback((event) => {
     if (videoBgRef.current) {
-      videoBgRef.current.play();
       onSync(event);
+      videoBgRef.current.play();
     }
   }, []);
 
@@ -92,7 +93,7 @@ export default () => {
   return (
     <>
       <Background>
-        <VideoBg src={media.path} ref={videoBgRef} />
+        <VideoBg muted src={media.path} ref={videoBgRef} />
       </Background>
       <Video
         autoPlay={videoAutoplay}
@@ -100,6 +101,7 @@ export default () => {
         loop={videoLoop}
         onPause={onPause}
         onPlay={onPlay}
+        onRateChange={onSync}
         onSeeked={onSync}
         onSeeking={onSync}
         onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
