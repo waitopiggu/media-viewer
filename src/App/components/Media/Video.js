@@ -52,6 +52,10 @@ export default function () {
     videoBgRef.current.playbackRate = event.target.playbackRate;
   };
 
+  const onLoadedData = () => {
+    time.current = 0;
+  };
+
   const onPause = (event) => {
     onSync(event);
     videoBgRef.current.pause();
@@ -75,18 +79,16 @@ export default function () {
     time.current = currentTime;
   };
 
-  const setVideoAttr = (currentTime) => {
+  const setVideoAttr = () => {
     const state = store.getState();
     const { video } = state;
-    videoRef.current.currentTime = currentTime;
+    videoRef.current.currentTime = time.current;
     videoRef.current.muted = video.muted;
     videoRef.current.playbackRate = video.playbackRate;
     videoRef.current.volume = video.volume;
   };
 
-  React.useEffect(() => setVideoAttr(0), [media]);
-
-  React.useEffect(() => setVideoAttr(time.current), [autoplay, loop]);
+  React.useEffect(setVideoAttr, [autoplay, loop, media]);
 
   return (
     <>
@@ -104,6 +106,7 @@ export default function () {
         controls
         loop={loop}
         onEnded={onSync}
+        onLoadedData={onLoadedData}
         onPause={onPause}
         onPlay={onPlay}
         onRateChange={onRateChange}
