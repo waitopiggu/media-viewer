@@ -47,11 +47,11 @@ const minHeight = 600;
     createWindow();
 
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow();
+      BrowserWindow.getAllWindows().length === 0 && createWindow();
     });
 
     app.on('window-all-closed', () => {
-      if (process.platform !== 'darwin') app.quit();
+      process.platform !== 'darwin' && app.quit();
     });
   } catch (error) {
     console.error(error);

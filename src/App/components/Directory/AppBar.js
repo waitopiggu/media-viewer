@@ -26,6 +26,8 @@ export default function ({ onFileSearch }) {
   const [searchValue, setSearchValue] = React.useState('');
   const [sort, setSort] = React.useState('name');
 
+  const parentDir = React.useMemo(() => dirname(directory), [directory]);
+
   const onSortFiles = React.useCallback((value, func) => {
     dispatch(actions.files.set(
       sort === value ? reverse(files.slice()) : sortBy(files, func || value),
@@ -66,7 +68,7 @@ export default function ({ onFileSearch }) {
   const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
   const onParentDirClick = () => {
-    dispatch(actions.directory.set(dirname(directory)));
+    dispatch(actions.directory.set(parentDir));
     onFileSearch('');
     setSearchValue('');
   };
@@ -76,7 +78,11 @@ export default function ({ onFileSearch }) {
       <AppBar color="transparent" elevation={0} position="relative">
         <Toolbar disableGutters variant="dense">
           <Tooltip title="Parent Directory">
-            <IconButton onClick={onParentDirClick} sx={buttonStyle}>
+            <IconButton
+              disabled={parentDir === directory}
+              onClick={onParentDirClick}
+              sx={buttonStyle}
+            >
               <DriveFolderUpload />
             </IconButton>
           </Tooltip>

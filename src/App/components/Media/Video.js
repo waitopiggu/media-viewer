@@ -47,16 +47,6 @@ export default function () {
     },
   ], [videoAutoplay, videoLoop]);
 
-  const makeVideoAttrStateChange = (attrs) => () => {
-    if (videoRef.current) {
-      videoTime.current = videoRef.current.currentTime;
-      const next = attrs.reduce((payload, attrName) => ({
-        ...payload, [attrName]: videoRef.current[attrName],
-      }), {});
-      dispatch(actions.video.merge(next));
-    }
-  };
-
   const onSync = React.useCallback((event) => {
     if (videoBgRef.current) {
       videoBgRef.current.currentTime = event.target.currentTime;
@@ -78,23 +68,28 @@ export default function () {
     }
   }, []);
 
+  const onVolumeChange = (event) => {
+    const { currentTime, muted, volume } = event.target;
+    dispatch(actions.video.merge({ muted, volume }));
+    videoTime.current = currentTime;
+  };
+
   const setVideoAttr = React.useCallback(() => {
     if (videoRef.current) {
       const state = store.getState();
       const { video } = state;
       videoRef.current.muted = video.muted;
       videoRef.current.volume = video.volume;
+      videoRef.current.currentTime = videoTime.current;
     }
   }, []);
 
-  React.useEffect(setVideoAttr, [media, store]);
-
   React.useEffect(() => {
+    videoTime.current = 0;
     setVideoAttr();
-    if (videoRef.current) {
-      videoRef.current.currentTime = videoTime.current;
-    }
-  }, [videoAutoplay, videoLoop]);
+  }, [media]);
+
+  React.useEffect(setVideoAttr, [videoAutoplay, videoLoop]);
 
   return (
     <>
@@ -117,7 +112,7 @@ export default function () {
         onRateChange={onSync}
         onSeeked={onSync}
         onSeeking={onSync}
-        onVolumeChange={makeVideoAttrStateChange(['muted', 'volume'])}
+        onVolumeChange={onVolumeChange}
         ref={videoRef}
         src={media.path}
       />
