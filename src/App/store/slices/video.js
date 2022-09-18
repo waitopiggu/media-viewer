@@ -6,6 +6,7 @@ export default createSlice({
     autoplay: false,
     loop: false,
     muted: true,
+    playbackRate: 1,
     volume: 0,
   },
   reducers: {
