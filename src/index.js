@@ -40,7 +40,7 @@ const minHeight = 600;
       if (process.argv[2] === 'DEV') {
         mainWindow.webContents.openDevTools();
       } else {
-        mainWindow.removeMenu();
+        //mainWindow.removeMenu();
       }
     };
 

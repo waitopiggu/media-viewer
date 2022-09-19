@@ -9,6 +9,6 @@ export default () => {
   const media = useSelector((state) => state.media);
 
   return React.useMemo(() => (
-    files.findIndex((file) => file.name === media.name)
+    files.findIndex((file) => media && file.name === media.name)
   ), [files, media]);
 };

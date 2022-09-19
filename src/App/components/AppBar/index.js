@@ -1,24 +1,18 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { existsSync, statSync } from 'fs';
-import {
-  AppBar, Avatar, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
-} from '@mui/material';
-import { FolderOpen, SaveOutlined, SaveAsOutlined } from '@mui/icons-material';
+import { AppBar, InputBase, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import actions from '../store/actions';
-import { util } from '../shared/lib';
-
-const IS_WINDOWS_PLATFORM = process.platform === 'win32';
+import actions from '../../store/actions';
+import { util } from '../../shared/lib';
+import DriveMenuButton from './DriveMenuButton';
 
 /**
  * AppBar Component
  */
 export default function () {
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const directory = useSelector((state) => state.directory);
   const dispatch = useDispatch();
-  const [drives, setDrives] = React.useState([]);
   const [editing, setEditing] = React.useState(false);
   const [path, setPath] = React.useState('');
 
@@ -26,26 +20,10 @@ export default function () {
     width: '100%',
   });
 
-  React.useEffect(() => {
-    IS_WINDOWS_PLATFORM && (async () => {
-      const driveList = await util.listWindowsDrives();
-      driveList.length && setDrives(driveList.map((name) => `${name}/`));
-    })();
-  }, []);
-
-  const makeDriveChange = (driveName) => () => {
-    dispatch(actions.directory.set(driveName));
-    setAnchorEl(null);
-  };
-
   const onEditPath = () => {
     setEditing(true);
     setPath(directory);
   };
-
-  const onMenuClose = () => setAnchorEl(null);
-
-  const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
   const onPathChange = (event) => setPath(event.target.value);
 
@@ -69,17 +47,7 @@ export default function () {
   return (
     <AppBar color="transparent" elevation={1}>
       <Toolbar disableGutters variant="dense">
-        {IS_WINDOWS_PLATFORM ? (
-          <Tooltip title="Select Drive">
-            <IconButton onClick={onMenuOpen} sx={{ marginX: 2 }}>
-              {anchorEl ? <SaveAsOutlined /> : <SaveOutlined />}
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Avatar>
-            <FolderOpen sx={{ marginX: 3 }} />
-          </Avatar>
-        )}
+        <DriveMenuButton />
         {editing ? (
           <Form onSubmit={onPathSet} sx={{ flexGrow: 1 }}>
             <InputBase
@@ -99,13 +67,6 @@ export default function () {
           />
         )}
       </Toolbar>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
-        {drives.map((driveName) => (
-          <MenuItem key={driveName} onClick={makeDriveChange(driveName)}>
-            {driveName}
-          </MenuItem>
-        ))}
-      </Menu>
     </AppBar>
   );
 }

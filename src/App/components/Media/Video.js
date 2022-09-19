@@ -47,13 +47,13 @@ export default function () {
     },
   ], [autoplay, loop]);
 
+  const onLoadedData = () => {
+    time.current = 0;
+  };
+
   const onSync = (event) => {
     videoBgRef.current.currentTime = event.target.currentTime;
     videoBgRef.current.playbackRate = event.target.playbackRate;
-  };
-
-  const onLoadedData = () => {
-    time.current = 0;
   };
 
   const onPause = (event) => {

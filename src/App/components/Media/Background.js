@@ -7,14 +7,14 @@ export const backgroundStyles = {
   height: '100%',
   objectFit: 'cover',
   userSelect: 'none',
-  opacity: 0.8,
+  opacity: 0.6,
 };
 
 const Backdrop = styled('div')({
   width: '100%',
   height: '100%',
   position: 'absolute',
-  backdropFilter: 'blur(8px)',
+  backdropFilter: 'blur(16px)',
   zIndex: 10,
 });
 
