@@ -7,16 +7,9 @@ export const backgroundStyles = {
   height: '100%',
   objectFit: 'cover',
   userSelect: 'none',
+  filter: 'blur(16px)',
   opacity: 0.6,
 };
-
-const Backdrop = styled('div')({
-  width: '100%',
-  height: '100%',
-  position: 'absolute',
-  backdropFilter: 'blur(16px)',
-  zIndex: 10,
-});
 
 const Container = styled('div')({
   backgroundColor: '#333',
@@ -33,7 +26,6 @@ const Container = styled('div')({
 export default function ({ children }) {
   return (
     <Container>
-      <Backdrop />
       {children}
     </Container>
   );

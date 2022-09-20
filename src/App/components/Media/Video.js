@@ -47,10 +47,6 @@ export default function () {
     },
   ], [autoplay, loop]);
 
-  const onLoadedData = () => {
-    time.current = 0;
-  };
-
   const onSync = (event) => {
     videoBgRef.current.currentTime = event.target.currentTime;
     videoBgRef.current.playbackRate = event.target.playbackRate;
@@ -90,6 +86,11 @@ export default function () {
 
   React.useEffect(setVideoAttr, [autoplay, loop, media]);
 
+  React.useEffect(() => {
+    time.current = 0;
+    setVideoAttr();
+  }, [media]);
+
   return (
     <>
       <Background>
@@ -106,7 +107,6 @@ export default function () {
         controls
         loop={loop}
         onEnded={onSync}
-        onLoadedData={onLoadedData}
         onPause={onPause}
         onPlay={onPlay}
         onRateChange={onRateChange}

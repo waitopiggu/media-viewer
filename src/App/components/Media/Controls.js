@@ -6,7 +6,7 @@ import {
 import {
   KeyboardArrowLeft, KeyboardArrowRight, MenuOpen,
 } from '@mui/icons-material';
-import { useFileNavigation, useMediaFileIndex } from '../../shared/hooks';
+import { useFileNavigation } from '../../shared/hooks';
 
 /**
  * Media Controls Component
@@ -15,15 +15,6 @@ export default function ({ menuItems }) {
   const files = useSelector((state) => state.files);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [onPreviousFile, onNextFile] = useFileNavigation();
-  const mediaFileIndex = useMediaFileIndex();
-
-  const isMediaFirstFile = React.useMemo(() => (
-    mediaFileIndex <= 0
-  ), [mediaFileIndex]);
-
-  const isMediaLastFile = React.useMemo(() => (
-    mediaFileIndex >= files.length - 1
-  ), [files, mediaFileIndex]);
 
   const makeMenuItemClick = (onClick) => () => {
     onClick && onClick();
@@ -45,13 +36,13 @@ export default function ({ menuItems }) {
     <AppBar color="transparent" elevation={0} position="relative">
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
-          <IconButton disabled={isMediaFirstFile} onClick={onPreviousFile}>
+          <IconButton onClick={onPreviousFile}>
             <KeyboardArrowLeft />
           </IconButton>
           <IconButton onClick={onMenuOpen}>
             <MenuOpen />
           </IconButton>
-          <IconButton disabled={isMediaLastFile} onClick={onNextFile}>
+          <IconButton onClick={onNextFile}>
             <KeyboardArrowRight />
           </IconButton>
         </Grid>
