@@ -12,13 +12,13 @@ export default () => {
   const mediaFileIndex = useMediaFileIndex();
 
   const onPreviousFile = React.useCallback(() => {
-    const nextIndex = Math.max(mediaFileIndex - 1, 0);
-    dispatch(actions.media.set(files[nextIndex]));
+    const index = (mediaFileIndex + files.length - 1) % files.length;
+    dispatch(actions.media.set(files[index]));
   }, [files, mediaFileIndex]);
 
   const onNextFile = React.useCallback(() => {
-    const nextIndex = Math.min(mediaFileIndex + 1, files.length - 1);
-    dispatch(actions.media.set(files[nextIndex]));
+    const index = (mediaFileIndex + 1) % files.length;
+    dispatch(actions.media.set(files[index]));
   }, [files, mediaFileIndex]);
 
   return [onPreviousFile, onNextFile];
