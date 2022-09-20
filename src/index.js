@@ -35,13 +35,11 @@ const minHeight = 600;
         fs.writeFileSync(initPath, JSON.stringify(data));
       });
 
-      mainWindow.loadFile('index.html');
+      mainWindow.autoHideMenuBar =  true;
+      mainWindow.menuBarVisible = false;
+      process.argv[2] === 'DEV' && mainWindow.webContents.openDevTools();
 
-      if (process.argv[2] === 'DEV') {
-        mainWindow.webContents.openDevTools();
-      } else {
-        //mainWindow.removeMenu();
-      }
+      mainWindow.loadFile('index.html');
     };
 
     createWindow();
