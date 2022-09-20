@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dirname } from 'path';
-import { debounce, reverse, sortBy } from 'lodash';
+import { debounce, reverse, shuffle, sortBy } from 'lodash';
 import {
-  AppBar, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
+  AppBar, Divider, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
 } from '@mui/material';
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
 import actions from '../../store/actions';
@@ -28,13 +28,12 @@ export default function ({ onFileSearch }) {
 
   const parentDir = React.useMemo(() => dirname(directory), [directory]);
 
-  const onSortFiles = React.useCallback((value, func) => {
+  const onSortFiles = (value, func) => {
     dispatch(actions.files.set(
       sort === value ? reverse(files.slice()) : sortBy(files, func || value),
     ));
-    setAnchorEl(null);
     setSort(value);
-  }, [files, sort]);
+  };
 
   const menuItems = React.useMemo(() => [
     {
@@ -57,11 +56,11 @@ export default function ({ onFileSearch }) {
 
   const onSearchValueChanged = debounce(onFileSearch, DEBOUNCE_MS);
 
-  const onInputChange = React.useCallback((event) => {
+  const onInputChange = (event) => {
     const { value } = event.target;
     setSearchValue(value);
     onSearchValueChanged(value.toLowerCase());
-  }, [onSearchValueChanged]);
+  };
 
   const onMenuClose = () => setAnchorEl(null);
 
@@ -72,6 +71,19 @@ export default function ({ onFileSearch }) {
     onFileSearch('');
     setSearchValue('');
   };
+
+  const onShuffleFiles = () => {
+    dispatch(actions.files.set(shuffle(files.slice())));
+    setSort('shuffle');
+  };
+
+  React.useEffect(() => {
+    setSort('name');
+  }, [directory]);
+
+  React.useEffect(() => {
+    setAnchorEl(null);
+  }, [sort]);
 
   return (
     <>
@@ -105,6 +117,10 @@ export default function ({ onFileSearch }) {
             {label}
           </MenuItem>
         ))}
+        <Divider />
+        <MenuItem onClick={onShuffleFiles} selected={sort === 'shuffle'}>
+          {'Shuffle files'}
+        </MenuItem>
       </Menu>
     </>
   );
