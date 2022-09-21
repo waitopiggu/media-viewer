@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+const remoteMain = require('@electron/remote/main');
 const path = require('path');
 const fs = require('fs');
 
@@ -38,6 +39,9 @@ const minHeight = 600;
       mainWindow.autoHideMenuBar =  true;
       mainWindow.menuBarVisible = false;
       process.argv[2] === 'DEV' && mainWindow.webContents.openDevTools();
+
+      remoteMain.initialize();
+      remoteMain.enable(mainWindow.webContents);
 
       mainWindow.loadFile('index.html');
     };

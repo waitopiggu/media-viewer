@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
-import { FolderOpen, SaveOutlined, SaveAsOutlined } from '@mui/icons-material';
+import { FolderOpen, SaveOutlined } from '@mui/icons-material';
 import actions from '../../store/actions';
 import { util } from '../../shared/lib';
 
@@ -36,7 +36,7 @@ export default function () {
       {IS_WINDOWS_PLATFORM ? (
         <Tooltip title="Select Drive">
           <IconButton onClick={onOpen} sx={{ marginX: 2 }}>
-            {anchorEl ? <SaveAsOutlined /> : <SaveOutlined />}
+            <SaveOutlined />
           </IconButton>
         </Tooltip>
       ) : (

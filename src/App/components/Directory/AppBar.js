@@ -33,6 +33,7 @@ export default function ({ onFileSearch }) {
       sort === value ? reverse(files.slice()) : sortBy(files, func || value),
     ));
     setSort(value);
+    setAnchorEl(null);
   };
 
   const menuItems = React.useMemo(() => [
@@ -75,15 +76,12 @@ export default function ({ onFileSearch }) {
   const onShuffleFiles = () => {
     dispatch(actions.files.set(shuffle(files.slice())));
     setSort('shuffle');
+    setAnchorEl(null);
   };
 
   React.useEffect(() => {
     setSort('name');
   }, [directory]);
-
-  React.useEffect(() => {
-    setAnchorEl(null);
-  }, [sort]);
 
   return (
     <>
