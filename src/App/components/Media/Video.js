@@ -53,7 +53,7 @@ export default function () {
   };
 
   const onPause = (event) => {
-    onSync(event);
+    //onSync(event);
     videoBgRef.current.pause();
   };
 

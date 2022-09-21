@@ -117,7 +117,7 @@ export default function ({ onFileSearch }) {
         ))}
         <Divider />
         <MenuItem onClick={onShuffleFiles} selected={sort === 'shuffle'}>
-          {'Shuffle files'}
+          Shuffle files
         </MenuItem>
       </Menu>
     </>

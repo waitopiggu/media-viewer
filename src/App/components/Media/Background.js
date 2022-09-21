@@ -12,11 +12,13 @@ export const backgroundStyles = {
 };
 
 const Container = styled('div')({
-  backgroundColor: '#333',
+  backgroundColor: '#444',
+  filter: 'saturate(150%)',
   width: '100%',
   height: `calc(100% - ${appBarHeight}px)`,
   position: 'absolute',
   overflow: 'hidden',
+  opacity: 0.8,
   zIndex: -1,
 });
 
@@ -28,7 +30,7 @@ const Shade = styled('div')({
   position: 'absolute',
   top: 0,
   left: 0,
-  opacity: 0.4,
+  opacity: 0.5,
 });
 
 /**

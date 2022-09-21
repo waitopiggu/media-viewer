@@ -48,12 +48,8 @@ export default function () {
         </IconButton>
       </Tooltip>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
-        <MenuItem onClick={onDevToolsClick}>
-          {'Open dev tools'}
-        </MenuItem>
-        <MenuItem onClick={onUserDataClick}>
-          {'Open data directory'}
-        </MenuItem>
+        <MenuItem onClick={onDevToolsClick}>Open dev tools</MenuItem>
+        <MenuItem onClick={onUserDataClick}>Open data directory</MenuItem>
       </Menu>
     </>
   );

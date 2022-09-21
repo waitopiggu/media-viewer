@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import {
   AppBar, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar,
 } from '@mui/material';
@@ -12,7 +11,6 @@ import { useFileNavigation } from '../../shared/hooks';
  * Media Controls Component
  */
 export default function ({ menuItems }) {
-  const files = useSelector((state) => state.files);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [onPreviousFile, onNextFile] = useFileNavigation();
 
