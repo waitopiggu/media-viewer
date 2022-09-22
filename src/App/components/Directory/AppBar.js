@@ -8,7 +8,7 @@ import {
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
 import actions from '../../store/actions';
 
-const DEBOUNCE_MS = 300;
+const DELAY_MS = 300;
 
 const buttonStyle = {
   marginLeft: 2,
@@ -55,7 +55,7 @@ export default function ({ onFileSearch }) {
     },
   ], [onSortFiles, sort]);
 
-  const onSearchValueChanged = debounce(onFileSearch, DEBOUNCE_MS);
+  const onSearchValueChanged = debounce(onFileSearch, DELAY_MS);
 
   const onInputChange = (event) => {
     const { value } = event.target;

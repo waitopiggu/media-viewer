@@ -16,6 +16,7 @@ const reducers = combineReducers({
   directory: slices.directory.reducer,
   files: slices.files.reducer,
   image: slices.image.reducer,
+  mainWindow: slices.mainWindow.reducer,
   media: slices.media.reducer,
   thumbs: slices.thumbs.reducer,
   video: slices.video.reducer,

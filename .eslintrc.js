@@ -8,6 +8,7 @@ module.exports = {
   extends: ['airbnb'],
   globals: {
     document: true,
+    window: true,
   },
   rules: {
     'func-names': 0,
