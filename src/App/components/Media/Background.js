@@ -7,30 +7,25 @@ export const backgroundStyles = {
   height: '100%',
   objectFit: 'cover',
   userSelect: 'none',
-  filter: 'blur(16px)',
-  opacity: 0.6,
 };
 
 const Container = styled('div')({
   backgroundColor: '#444',
-  filter: 'saturate(150%)',
   width: '100%',
   height: `calc(100% - ${appBarHeight}px)`,
   position: 'absolute',
   overflow: 'hidden',
-  opacity: 0.8,
   zIndex: -1,
 });
 
-const Shade = styled('div')({
-  backgroundColor: '#333',
+const Filter = styled('div')({
   width: '100%',
   height: '100%',
-  filter: 'blur(16px)',
+  backdropFilter: 'blur(16px)',
+  transform: 'translate3d(0, 0, 0)',
   position: 'absolute',
   top: 0,
   left: 0,
-  opacity: 0.5,
 });
 
 /**
@@ -40,7 +35,7 @@ export default function ({ children }) {
   return (
     <Container>
       {children}
-      <Shade />
+      <Filter />
     </Container>
   );
 }
