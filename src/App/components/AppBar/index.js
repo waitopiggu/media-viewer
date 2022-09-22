@@ -6,7 +6,6 @@ import { styled } from '@mui/material/styles';
 import actions from '../../store/actions';
 import { util } from '../../shared/lib';
 import DriveMenuButton from './DriveMenuButton';
-import SettingMenuButton from './SettingMenuButton';
 
 /**
  * AppBar Component
@@ -67,7 +66,6 @@ export default function () {
             value={directory}
           />
         )}
-        <SettingMenuButton />
       </Toolbar>
     </AppBar>
   );

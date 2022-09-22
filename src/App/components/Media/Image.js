@@ -20,7 +20,6 @@ export default function () {
 
   const Img = styled('img')({
     display: 'block',
-    margin: '0 auto',
     width: /contain|width/.test(image.fit) ? '100%' : 'auto',
     height: image.fit === 'contain' ? '100%' : 'auto',
     objectFit: 'contain',
