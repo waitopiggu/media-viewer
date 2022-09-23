@@ -25,6 +25,7 @@ export default function () {
     height: image.fit === 'contain' ? '100%' : 'auto',
     objectFit: 'contain',
     userSelect: 'none',
+    opacity: 0,
   });
 
   const ImgBg = styled('img')(backgroundStyles);
@@ -52,9 +53,7 @@ export default function () {
     },
   ], [image]);
 
-  const onLeftClick = (event) => event.detail === 2 && onNextFile();
-
-  const translateY = (imgEl, containerEl) => {
+  const imageTranslateY = (imgEl, containerEl) => {
     if (/none|width/.test(image.fit)) {
       const img = imgEl;
       const container = containerEl;
@@ -67,17 +66,20 @@ export default function () {
     }
   };
 
+  const onLeftClick = (event) => event.detail === 2 && onNextFile();
+
   const onLoad = (event) => {
     const img = event.target;
     const container = img.parentNode;
-    translateY(img, container);
+    imageTranslateY(img, container);
+    img.style.opacity = 1;
   };
 
   React.useEffect(() => {
     const onResize = () => {
       const img = document.getElementById('media-img');
       const container = img.parentNode;
-      translateY(img, container);
+      imageTranslateY(img, container);
     };
     window.addEventListener('resize', onResize);
     return () => {
