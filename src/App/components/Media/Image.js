@@ -20,6 +20,7 @@ export default function () {
 
   const Img = styled('img')({
     display: 'block',
+    margin: '0 auto',
     width: /contain|width/.test(image.fit) ? '100%' : 'auto',
     height: image.fit === 'contain' ? '100%' : 'auto',
     objectFit: 'contain',
@@ -53,6 +54,37 @@ export default function () {
 
   const onLeftClick = (event) => event.detail === 2 && onNextFile();
 
+  const translateY = (imgEl, containerEl) => {
+    if (/none|width/.test(image.fit)) {
+      const img = imgEl;
+      const container = containerEl;
+      if (img.height < container.clientHeight) {
+        const y = 0.5 * (container.clientHeight - img.height);
+        img.style.transform = `translateY(${y}px)`;
+      } else {
+        img.style.transform = '';
+      }
+    }
+  };
+
+  const onLoad = (event) => {
+    const img = event.target;
+    const container = img.parentNode;
+    translateY(img, container);
+  };
+
+  React.useEffect(() => {
+    const onResize = () => {
+      const img = document.getElementById('media-img');
+      const container = img.parentNode;
+      translateY(img, container);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+    };
+  }, [image]);
+
   return (
     <>
       <Background>
@@ -60,9 +92,11 @@ export default function () {
       </Background>
       <ImgScrollContainer hideScrollbars={false}>
         <Img
+          id="media-img"
           draggable={false}
           onClick={onLeftClick}
           onContextMenu={onPreviousFile}
+          onLoad={onLoad}
           src={media.path}
         />
       </ImgScrollContainer>
