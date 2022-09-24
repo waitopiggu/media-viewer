@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import { FolderOutlined } from '@mui/icons-material';
 import actions from '../../store/actions';
-import { useMediaFileIndex } from '../../shared/hooks';
 import { appBarHeight, directoryListWidth } from '../../shared/variables';
 import AppBar from './AppBar';
 
@@ -30,7 +29,6 @@ export default function () {
   const [fileSearch, setFileSearch] = React.useState('');
   const listRef = React.useRef(0);
   const media = useSelector((state) => state.media);
-  const mediaFileIndex = useMediaFileIndex();
   const thumbs = useSelector((state) => state.thumbs);
   const store = useStore();
 
@@ -54,10 +52,10 @@ export default function () {
   const onListRef = React.useCallback((listEl) => {
     listRef.current = listEl;
     if (listRef.current) {
-      const index = mediaFileIndex >= 0 ? mediaFileIndex : 0;
-      listRef.current.scrollToItem(index, 'smart');
+      let index = files.findIndex((file) => media && file.name === media.name);
+      listRef.current.scrollToItem(index < 0 ? 0 : index, 'smart');
     }
-  }, [files, mediaFileIndex]);
+  }, [files, media]);
 
   const renderRow = ({ data, index, style }) => {
     const file = data[index];

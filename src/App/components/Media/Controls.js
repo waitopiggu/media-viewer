@@ -1,18 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   AppBar, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar,
 } from '@mui/material';
 import {
   KeyboardArrowLeft, KeyboardArrowRight, MenuOpen,
 } from '@mui/icons-material';
-import { useFileNavigation } from '../../shared/hooks';
+import actions from '../../store/actions';
 
 /**
  * Media Controls Component
  */
 export default function ({ menuItems }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [onPreviousFile, onNextFile] = useFileNavigation();
+  const dispatch = useDispatch();
 
   const makeMenuItemClick = (onClick) => () => {
     onClick && onClick();
@@ -29,6 +30,10 @@ export default function ({ menuItems }) {
   const onMenuClose = () => setAnchorEl(null);
 
   const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
+
+  const onNextFile = () => dispatch(actions.media.navigate(1));
+
+  const onPreviousFile = () => dispatch(actions.media.navigate(-1));
 
   return (
     <AppBar color="transparent" elevation={0} position="relative">

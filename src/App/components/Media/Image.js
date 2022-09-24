@@ -4,7 +4,6 @@ import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import actions from '../../store/actions';
-import { useFileNavigation } from '../../shared/hooks';
 import { appBarHeight } from '../../shared/variables';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
@@ -13,10 +12,10 @@ import Controls from './Controls';
  * Media Image Component
  */
 export default function () {
+  const controlsRef = React.useRef(0);
   const dispatch = useDispatch();
   const image = useSelector((state) => state.image);
   const media = useSelector((state) => state.media);
-  const [onPreviousFile, onNextFile] = useFileNavigation();
 
   const Img = styled('img')({
     display: 'block',
@@ -66,7 +65,13 @@ export default function () {
     }
   };
 
-  const onLeftClick = (event) => event.detail === 2 && onNextFile();
+  const onPrevious = () => {
+    dispatch(actions.media.navigate(-1));
+  };
+
+  const onNext = (event) => {
+    event.detail === 2 && dispatch(actions.media.navigate(1));
+  };
 
   const onLoad = (event) => {
     const img = event.target;
@@ -96,8 +101,8 @@ export default function () {
         <Img
           id="media-img"
           draggable={false}
-          onClick={onLeftClick}
-          onContextMenu={onPreviousFile}
+          onClick={onNext}
+          onContextMenu={onPrevious}
           onLoad={onLoad}
           src={media.path}
         />
