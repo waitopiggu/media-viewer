@@ -12,7 +12,6 @@ import Controls from './Controls';
  * Media Image Component
  */
 export default function () {
-  const controlsRef = React.useRef(0);
   const dispatch = useDispatch();
   const image = useSelector((state) => state.image);
   const media = useSelector((state) => state.media);

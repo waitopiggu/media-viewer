@@ -1,5 +1,3 @@
-import { filter } from 'lodash';
-import { util } from '../../shared/lib';
 import slices from '../slices';
 
 export default [

@@ -52,7 +52,7 @@ export default function () {
   const onListRef = React.useCallback((listEl) => {
     listRef.current = listEl;
     if (listRef.current) {
-      let index = files.findIndex((file) => media && file.name === media.name);
+      const index = files.findIndex((file) => media && file.name === media.name);
       listRef.current.scrollToItem(index < 0 ? 0 : index, 'smart');
     }
   }, [files, media]);
