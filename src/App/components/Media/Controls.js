@@ -1,10 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  AppBar, Grid, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar,
+  AppBar,
+  Grid,
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
 } from '@mui/material';
 import {
-  KeyboardArrowLeft, KeyboardArrowRight, MenuOpen,
+  KeyboardArrowLeft, KeyboardArrowRight, Settings,
 } from '@mui/icons-material';
 import actions from '../../store/actions';
 
@@ -39,15 +47,21 @@ export default function ({ menuItems }) {
     <AppBar color="transparent" elevation={0} position="relative">
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
-          <IconButton onClick={onPreviousFile}>
-            <KeyboardArrowLeft />
-          </IconButton>
-          <IconButton onClick={onMenuOpen}>
-            <MenuOpen />
-          </IconButton>
-          <IconButton onClick={onNextFile}>
-            <KeyboardArrowRight />
-          </IconButton>
+          <Tooltip title="Previous File">
+            <IconButton onClick={onPreviousFile}>
+              <KeyboardArrowLeft />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Settings">
+            <IconButton onClick={onMenuOpen}>
+              <Settings />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Next File">
+            <IconButton onClick={onNextFile}>
+              <KeyboardArrowRight />
+            </IconButton>
+          </Tooltip>
         </Grid>
       </Toolbar>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>

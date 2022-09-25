@@ -24,6 +24,8 @@ export default function () {
     display: 'block',
     width: '100%',
     height: `calc(100% - ${appBarHeight}px)`,
+    transition: 'opacity 0.1s ease',
+    opacity: 0,
   });
 
   const VideoBg = styled('video')(backgroundStyles);
@@ -46,6 +48,11 @@ export default function () {
       label: 'Loop',
     },
   ], [autoplay, loop]);
+
+  const onLoadedData = (event) => {
+    const video = event.target;
+    video.style.opacity = 1;
+  };
 
   const onSync = (event) => {
     videoBgRef.current.currentTime = event.target.currentTime;
@@ -109,6 +116,7 @@ export default function () {
         onEnded={onSync}
         onPause={onPause}
         onPlay={onPlay}
+        onLoadedData={onLoadedData}
         onRateChange={onRateChange}
         onSeeked={onSync}
         onSeeking={onSync}

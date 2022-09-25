@@ -23,6 +23,7 @@ export default function () {
     height: image.fit === 'contain' ? '100%' : 'auto',
     objectFit: 'contain',
     userSelect: 'none',
+    transition: 'opacity 0.1s ease',
     opacity: 0,
   });
 
