@@ -65,19 +65,19 @@ export default function () {
     }
   };
 
-  const onPrevious = () => {
-    dispatch(actions.media.navigate(-1));
+  const onLoad = (event) => {
+    const img = event.target;
+    const container = img.parentNode;
+    imageTranslateY(img, container);
+    img.style.opacity = 1;
   };
 
   const onNext = (event) => {
     event.detail === 2 && dispatch(actions.media.navigate(1));
   };
 
-  const onLoad = (event) => {
-    const img = event.target;
-    const container = img.parentNode;
-    imageTranslateY(img, container);
-    img.style.opacity = 1;
+  const onPrevious = () => {
+    dispatch(actions.media.navigate(-1));
   };
 
   React.useEffect(() => {

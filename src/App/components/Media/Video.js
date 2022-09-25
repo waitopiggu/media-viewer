@@ -54,6 +54,14 @@ export default function () {
     video.style.opacity = 1;
   };
 
+  const onNext = (event) => {
+    event.detail === 2 && dispatch(actions.media.navigate(1));
+  };
+
+  const onPrevious = () => {
+    dispatch(actions.media.navigate(-1));
+  };
+
   const onSync = (event) => {
     videoBgRef.current.currentTime = event.target.currentTime;
     videoBgRef.current.playbackRate = event.target.playbackRate;
@@ -91,7 +99,7 @@ export default function () {
     videoRef.current.volume = video.volume;
   };
 
-  React.useEffect(setVideoAttr, [autoplay, loop, media]);
+  React.useEffect(setVideoAttr, [autoplay, loop]);
 
   React.useEffect(() => {
     time.current = 0;
@@ -113,6 +121,8 @@ export default function () {
         autoPlay={autoplay}
         controls
         loop={loop}
+        onClick={onNext}
+        onContextMenu={onPrevious}
         onEnded={onSync}
         onPause={onPause}
         onPlay={onPlay}
