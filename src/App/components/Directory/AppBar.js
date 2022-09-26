@@ -38,18 +38,24 @@ export default function ({ onFileSearch }) {
 
   const menuItems = React.useMemo(() => [
     {
-      label: 'Sort by name',
+      label: 'Name',
       onClick: () => onSortFiles('name'),
       selected: sort === 'name',
     },
     {
       func: (value) => new Date(value),
-      label: 'Sort by date',
+      label: 'Date',
       onClick: () => onSortFiles('date'),
       selected: sort === 'date',
     },
     {
-      label: 'Sort by type',
+      func: (value) => new Date(value),
+      label: 'Size',
+      onClick: () => onSortFiles('size'),
+      selected: sort === 'size',
+    },
+    {
+      label: 'Type',
       onClick: () => onSortFiles('type'),
       selected: sort === 'type',
     },
@@ -117,7 +123,7 @@ export default function ({ onFileSearch }) {
         ))}
         <Divider />
         <MenuItem onClick={onShuffleFiles} selected={sort === 'shuffle'}>
-          Shuffle files
+          Shuffle
         </MenuItem>
       </Menu>
     </>

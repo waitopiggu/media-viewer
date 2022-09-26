@@ -14,10 +14,11 @@ import {
 } from '@mui/material';
 import { FolderOutlined } from '@mui/icons-material';
 import actions from '../../store/actions';
+import { formatBytes } from '../../shared/lib/util';
 import { appBarHeight, directoryListWidth } from '../../shared/variables';
 import AppBar from './AppBar';
 
-const LIST_ITEM_HEIGHT = 72;
+const LIST_ITEM_HEIGHT = 64;
 const LIST_OVERSCAN_COUNT = 5;
 
 /**
@@ -67,6 +68,7 @@ export default function () {
         style={style}
       >
         <ListItemButton
+          dense
           onClick={makeItemClick(file)}
           selected={media && media.path === file.path}
         >
@@ -77,7 +79,23 @@ export default function () {
           </ListItemAvatar>
           <ListItemText
             primary={(<Typography noWrap>{file.name}</Typography>)}
-            secondary={file.date.toLocaleString()}
+            secondary={(
+              <Box component="span" sx={{ display: 'flex' }}>
+                <Typography component="span" variant="caption">
+                  {file.date.toLocaleString()}
+                </Typography>
+                {!file.isDirectory && (
+                  <Typography
+                    align="right"
+                    component="span"
+                    sx={{ flexGrow: 1 }}
+                    variant="caption"
+                  >
+                    {formatBytes(file.size)}
+                  </Typography>
+                )}
+              </Box>
+            )}
           />
         </ListItemButton>
       </ListItem>

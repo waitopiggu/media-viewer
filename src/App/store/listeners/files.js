@@ -16,16 +16,19 @@ export default [
           const stats = statSync(path);
           const type = mime.lookup(path);
 
-          const date = stats.birthtime;
-          const isDirectory = !stats.isFile();
-          const isImage = /image\/*/.test(type);
-          const isVideo = /video\/*/.test(type);
+          const file = {
+            date: stats.birthtime,
+            directory,
+            name,
+            isDirectory: !stats.isFile(),
+            isImage: /image\/*/.test(type),
+            isVideo: /video\/*/.test(type),
+            path,
+            size: stats.size,
+            type,
+          };
 
-          if (isDirectory || isImage || isVideo) {
-            next.push({
-              date, directory, name, isDirectory, isImage, isVideo, path, type,
-            });
-          }
+          (file.isDirectory || file.isImage || file.isVideo) && next.push(file);
         } catch (error) {
           console.error(error);
         }

@@ -3,6 +3,24 @@ import path from 'path';
 import db from './db';
 
 /**
+ * Format bytes to string
+ * https://stackoverflow.com/a/18650828
+ * @param {number} bytes
+ * @param {number} decimals
+ */
+export const formatBytes = (bytes, decimals) => {
+  if (!+bytes) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / (k ** i)).toFixed(dm))} ${sizes[i]}`;
+};
+
+/**
  * Get POSIX path on any platform
  * @param {string} pathValue
  */
@@ -68,4 +86,4 @@ export const listWindowsDrives = () => new Promise((resolve, reject) => {
   });
 });
 
-export default { getPosixPath, getVideoThumb, listWindowsDrives };
+export default { formatBytes, getPosixPath, getVideoThumb, listWindowsDrives };
