@@ -93,7 +93,7 @@ export default function ({ onFileSearch }) {
     <>
       <AppBar color="transparent" elevation={0} position="relative">
         <Toolbar disableGutters variant="dense">
-          <Tooltip title="Parent Directory">
+          <Tooltip placement="right" title="Parent Directory">
             <IconButton
               disabled={parentDir === directory}
               onClick={onParentDirClick}
@@ -108,7 +108,7 @@ export default function ({ onFileSearch }) {
             placeholder="Search files..."
             value={searchValue}
           />
-          <Tooltip title="Sort Files">
+          <Tooltip placement="left" title="Sort Files">
             <IconButton onClick={onMenuOpen} sx={buttonStyle}>
               <Sort />
             </IconButton>

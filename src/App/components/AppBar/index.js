@@ -14,7 +14,15 @@ export default function () {
   const directory = useSelector((state) => state.directory);
   const dispatch = useDispatch();
   const [editing, setEditing] = React.useState(false);
+  const media = useSelector((state) => state.media);
   const [path, setPath] = React.useState('');
+
+  const dirMedia = React.useMemo(() => {
+    if (media && directory === media.directory) {
+      return media.path;
+    }
+    return directory;
+  }, [directory, media]);
 
   const Form = styled('form')({
     width: '100%',
@@ -63,7 +71,7 @@ export default function () {
             fullWidth
             onClick={onEditPath}
             readOnly
-            value={directory}
+            value={dirMedia}
           />
         )}
       </Toolbar>

@@ -34,7 +34,7 @@ export default function () {
   return (
     <>
       {IS_WINDOWS_PLATFORM ? (
-        <Tooltip title="Select Drive">
+        <Tooltip placement="right" title="Select Drive">
           <IconButton onClick={onOpen} sx={{ marginX: 2 }}>
             <SaveOutlined />
           </IconButton>
