@@ -1,5 +1,6 @@
 import { readdirSync, statSync } from 'fs';
 import mime from 'mime-types';
+import { util } from '../../shared/lib';
 import slices from '../slices';
 
 export default [
@@ -8,7 +9,7 @@ export default [
     effect: async (action, listenerApi) => {
       const directory = action.payload;
       const filenames = readdirSync(directory);
-      const next = [];
+      let next = [];
 
       await Promise.all(filenames.map(async (name) => {
         try {
@@ -35,6 +36,7 @@ export default [
         return Promise.resolve();
       }));
 
+      next = next.sort(util.naturalSortBy('name'));
       listenerApi.dispatch(slices.files.actions.set(next));
     },
   },

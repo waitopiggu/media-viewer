@@ -1,12 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dirname } from 'path';
-import { debounce, reverse, shuffle, sortBy } from 'lodash';
+import { debounce, reverse, shuffle } from 'lodash';
 import {
   AppBar, Divider, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
 } from '@mui/material';
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
 import actions from '../../store/actions';
+import { naturalSortBy } from '../../shared/lib/util';
 
 const DELAY_MS = 300;
 
@@ -28,10 +29,11 @@ export default function ({ onFileSearch }) {
 
   const parentDir = React.useMemo(() => dirname(directory), [directory]);
 
-  const onSortFiles = (value, func) => {
-    dispatch(actions.files.set(
-      sort === value ? reverse(files.slice()) : sortBy(files, func || value),
-    ));
+  const onSortFiles = (value) => {
+    const next = files.slice();
+    dispatch(actions.files.set(sort === value ? reverse(next) : (
+      next.sort(naturalSortBy(value))
+    )));
     setSort(value);
     setAnchorEl(null);
   };

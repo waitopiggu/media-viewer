@@ -1,4 +1,5 @@
 import childProcess from 'child_process';
+import natsort from 'natsort';
 import path from 'path';
 import db from './db';
 
@@ -86,4 +87,15 @@ export const listWindowsDrives = () => new Promise((resolve, reject) => {
   });
 });
 
-export default { formatBytes, getPosixPath, getVideoThumb, listWindowsDrives };
+/**
+ * Natural Sort-by
+ * @param {string} value
+ */
+export const naturalSortBy = (value) => {
+  const sorter = natsort({ insensitive: true });
+  return (a, b) => sorter(a[value], b[value]);
+};
+
+export default {
+  formatBytes, getPosixPath, getVideoThumb, listWindowsDrives, naturalSortBy,
+};
