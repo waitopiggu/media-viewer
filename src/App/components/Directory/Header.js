@@ -17,7 +17,7 @@ const buttonStyle = {
 };
 
 /**
- * Directory AppBar Component
+ * Directory Header Component
  */
 export default function ({ onFileSearch }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -116,6 +116,7 @@ export default function ({ onFileSearch }) {
             </IconButton>
           </Tooltip>
         </Toolbar>
+        <Divider />
       </AppBar>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
         {menuItems.map(({ label, onClick, selected }) => (

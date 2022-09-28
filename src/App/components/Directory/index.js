@@ -5,7 +5,6 @@ import { FixedSizeList } from 'react-window';
 import {
   Avatar,
   Box,
-  Divider,
   ListItem,
   ListItemAvatar,
   ListItemButton,
@@ -16,7 +15,8 @@ import { FolderOutlined, Image, Movie } from '@mui/icons-material';
 import actions from '../../store/actions';
 import { formatBytes } from '../../shared/util';
 import { appBarHeight, directoryListWidth } from '../../shared/var';
-import AppBar from './AppBar';
+import Header from './Header';
+import Footer, { footerHeight } from './Footer';
 
 const LIST_ITEM_HEIGHT = 64;
 const LIST_OVERSCAN_COUNT = 5;
@@ -107,10 +107,9 @@ export default function () {
   return (
     <Box sx={{
       width: directoryListWidth,
-      height: `calc(100vh - ${appBarHeight * 2}px)`,
+      height: `calc(100vh - ${appBarHeight * 2 + footerHeight}px)`,
     }}>
-      <AppBar onFileSearch={setFileSearch} />
-      <Divider />
+      <Header onFileSearch={setFileSearch} />
       <AutoSizer>
         {({ height, width }) => (
           <FixedSizeList
@@ -126,6 +125,7 @@ export default function () {
           </FixedSizeList>
         )}
       </AutoSizer>
+      <Footer />
     </Box>
   );
 }
