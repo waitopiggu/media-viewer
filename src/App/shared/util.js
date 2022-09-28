@@ -29,8 +29,41 @@ export const formatBytes = (bytes, decimals) => {
   pathValue.split(path.sep).join(path.posix.sep)
 );
 
+/**
+ * Get Image/Video thumb from db (or create and get)
+ * @param {string} directory
+ * @param {string} filePath
+ */
+export const getMediaThumb = async (file) => {
+  const thumb = await db.get(file.path);
+  if (thumb) return thumb;
 
-const getThumbDataUrl = (media, mediaWidth, mediaHeight) => {
+  let mediaEl = null;
+  let mediaWidth = 0;
+  let mediaHeight = 0;
+
+  if (file.isImage) {
+    mediaEl = document.createElement('img');
+    await new Promise((resolve) => {
+      mediaEl.addEventListener('load', resolve);
+      mediaEl.src = file.path;
+    });
+    mediaWidth = mediaEl.width;
+    mediaHeight = mediaEl.height;
+  } else {
+    mediaEl = document.createElement('video');
+    await new Promise((resolve) => {
+      mediaEl.addEventListener('loadeddata', resolve);
+      mediaEl.src = file.path;
+    });
+    await new Promise((resolve) => {
+      mediaEl.addEventListener('seeked', resolve);
+      mediaEl.currentTime = 0.0;
+    });
+    mediaWidth = mediaEl.videoWidth;
+    mediaHeight = mediaEl.videoHeight;
+  }
+
   const size = 96;
   const ratio = mediaWidth / mediaHeight;
   let width = size;
@@ -45,57 +78,12 @@ const getThumbDataUrl = (media, mediaWidth, mediaHeight) => {
   canvas.height = height;
 
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(media, 0, 0, width, height);
+  ctx.drawImage(mediaEl, 0, 0, width, height);
 
-  return canvas.toDataURL('image/jpeg', 0.8);
-};
+  const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+  await db.add({ dataUrl, directory: file.directory , path: file.path }, 'thumbs');
 
-/**
- * Get image thumb from db (or create and get)
- * @param {string} directory
- * @param {string} filePath
- */
- export const getImageThumb = async (directory, filePath) => {
-  const thumb = await db.get(filePath);
-  if (thumb) return thumb;
-
-  const image = document.createElement('img');
-  await new Promise((resolve) => {
-    image.addEventListener('load', resolve);
-    image.src = filePath;
-  });
-
-  const dataUrl = getThumbDataUrl(image, image.width, image.height);
-  await db.add({ dataUrl, directory, path: filePath }, 'thumbs');
-
-  return db.get(filePath);
-};
-
-/**
- * Get video thumb from db (or create and get)
- * @param {string} directory
- * @param {string} filePath
- */
-export const getVideoThumb = async (directory, filePath) => {
-  const thumb = await db.get(filePath);
-
-  if (thumb) return thumb;
-
-  const video = document.createElement('video');
-  await new Promise((resolve) => {
-    video.addEventListener('loadeddata', resolve);
-    video.src = filePath;
-  });
-  await new Promise((resolve) => {
-    video.addEventListener('seeked', resolve);
-    video.currentTime = 0.0;
-  });
-
-  const { videoWidth, videoHeight } = video;
-  const dataUrl = getThumbDataUrl(video, videoWidth, videoHeight);
-  await db.add({ dataUrl, directory, path: filePath }, 'thumbs');
-
-  return db.get(filePath);
+  return db.get(file.path);
 };
 
 /**
@@ -125,9 +113,8 @@ export const naturalSortBy = (value) => {
 
 export default {
   formatBytes,
-  getImageThumb,
+  getMediaThumb,
   getPosixPath,
-  getVideoThumb,
   listWindowsDrives,
   naturalSortBy,
 };
