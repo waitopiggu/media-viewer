@@ -25,9 +25,51 @@ export const formatBytes = (bytes, decimals) => {
  * Get POSIX path on any platform
  * @param {string} pathValue
  */
-export const getPosixPath = (pathValue) => (
+ export const getPosixPath = (pathValue) => (
   pathValue.split(path.sep).join(path.posix.sep)
 );
+
+
+const getThumbDataUrl = (media, mediaWidth, mediaHeight) => {
+  const size = 96;
+  const ratio = mediaWidth / mediaHeight;
+  let width = size;
+  let height = size / ratio;
+  if (height > size) {
+    height = size;
+    width = height * ratio;
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(media, 0, 0, width, height);
+
+  return canvas.toDataURL('image/jpeg', 0.8);
+};
+
+/**
+ * Get image thumb from db (or create and get)
+ * @param {string} directory
+ * @param {string} filePath
+ */
+ export const getImageThumb = async (directory, filePath) => {
+  const thumb = await db.get(filePath);
+  if (thumb) return thumb;
+
+  const image = document.createElement('img');
+  await new Promise((resolve) => {
+    image.addEventListener('load', resolve);
+    image.src = filePath;
+  });
+
+  const dataUrl = getThumbDataUrl(image, image.width, image.height);
+  await db.add({ dataUrl, directory, path: filePath }, 'thumbs');
+
+  return db.get(filePath);
+};
 
 /**
  * Get video thumb from db (or create and get)
@@ -36,6 +78,7 @@ export const getPosixPath = (pathValue) => (
  */
 export const getVideoThumb = async (directory, filePath) => {
   const thumb = await db.get(filePath);
+
   if (thumb) return thumb;
 
   const video = document.createElement('video');
@@ -49,23 +92,7 @@ export const getVideoThumb = async (directory, filePath) => {
   });
 
   const { videoWidth, videoHeight } = video;
-  const size = 96;
-  const ratio = videoWidth / videoHeight;
-  let width = size;
-  let height = size / ratio;
-  if (height > size) {
-    height = size;
-    width = height * ratio;
-  }
-
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-
-  const ctx = canvas.getContext('2d');
-  ctx.drawImage(video, 0, 0, width, height);
-
-  const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+  const dataUrl = getThumbDataUrl(video, videoWidth, videoHeight);
   await db.add({ dataUrl, directory, path: filePath }, 'thumbs');
 
   return db.get(filePath);
@@ -97,5 +124,10 @@ export const naturalSortBy = (value) => {
 };
 
 export default {
-  formatBytes, getPosixPath, getVideoThumb, listWindowsDrives, naturalSortBy,
+  formatBytes,
+  getImageThumb,
+  getPosixPath,
+  getVideoThumb,
+  listWindowsDrives,
+  naturalSortBy,
 };

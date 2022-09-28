@@ -10,7 +10,7 @@ export const backgroundStyles = {
 };
 
 const Container = styled('div')({
-  backgroundColor: '#444',
+  backgroundColor: '#222',
   width: '100%',
   height: `calc(100% - ${appBarHeight}px)`,
   position: 'absolute',

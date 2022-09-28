@@ -12,7 +12,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
-import { FolderOutlined } from '@mui/icons-material';
+import { FolderOutlined, Image, Movie } from '@mui/icons-material';
 import actions from '../../store/actions';
 import { formatBytes } from '../../shared/util';
 import { appBarHeight, directoryListWidth } from '../../shared/var';
@@ -59,7 +59,6 @@ export default function () {
   }, [files, media]);
 
   const renderRow = ({ data, index, style }) => {
-    console.log('render row');
     const file = data[index];
     return (
       <ListItem
@@ -74,8 +73,10 @@ export default function () {
           selected={media && media.path === file.path}
         >
           <ListItemAvatar>
-            <Avatar src={file.isImage ? file.path : thumbs[file.path]}>
-              <FolderOutlined />
+            <Avatar src={thumbs[file.path]}>
+              {file.isDirectory &&  <FolderOutlined />}
+              {file.isImage &&  <Image />}
+              {file.isVideo &&  <Movie />}
             </Avatar>
           </ListItemAvatar>
           <ListItemText
