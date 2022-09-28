@@ -4,7 +4,9 @@ import { AppBar, Divider, Grid, Toolbar, Typography } from '@mui/material';
 import { formatBytes } from '../../shared/util';
 import { directoryListWidth } from '../../shared/var';
 
-export const footerHeight = 32;
+const Text = ({ children }) => (
+<Typography sx={{ marginX: 2 }} variant="subtitle2">{children}</Typography>
+);
 
 /**
  * Directory Footer Component
@@ -23,14 +25,10 @@ export default function () {
         sx={{ bottom: 0, left: 0, top: 'auto', width: directoryListWidth }}
       >
         <Divider />
-        <Toolbar disableGutters variant="dense" sx={{ minHeight: footerHeight }}>
+        <Toolbar disableGutters variant="dense">
           <Grid container direction="row" justifyContent="space-between">
-            <Typography sx={{ marginLeft: 2 }} variant="caption">
-              {`${files.length} Files`}
-            </Typography>
-            <Typography sx={{ marginRight: 2 }} variant="caption">
-              {formatBytes(bytes)}
-            </Typography>
+            <Text>{`${files.length} Files`}</Text>
+            <Text>{formatBytes(bytes)}</Text>
           </Grid>
         </Toolbar>
       </AppBar>

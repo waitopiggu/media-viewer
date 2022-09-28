@@ -64,7 +64,7 @@ export const getMediaThumb = async (file) => {
     mediaHeight = mediaEl.videoHeight;
   }
 
-  const size = 96;
+  const size = 48;
   const ratio = mediaWidth / mediaHeight;
   let width = size;
   let height = size / ratio;

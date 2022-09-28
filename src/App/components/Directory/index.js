@@ -16,7 +16,7 @@ import actions from '../../store/actions';
 import { formatBytes } from '../../shared/util';
 import { appBarHeight, directoryListWidth } from '../../shared/var';
 import Header from './Header';
-import Footer, { footerHeight } from './Footer';
+import Footer from './Footer';
 
 const LIST_ITEM_HEIGHT = 64;
 const LIST_OVERSCAN_COUNT = 5;
@@ -107,7 +107,7 @@ export default function () {
   return (
     <Box sx={{
       width: directoryListWidth,
-      height: `calc(100vh - ${appBarHeight * 2 + footerHeight}px)`,
+      height: `calc(100vh - ${appBarHeight * 3}px)`,
     }}>
       <Header onFileSearch={setFileSearch} />
       <AutoSizer>

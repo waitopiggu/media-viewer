@@ -7,6 +7,7 @@ export const backgroundStyles = {
   height: '100%',
   objectFit: 'cover',
   userSelect: 'none',
+  transform: 'scale(1.2)',
 };
 
 const Container = styled('div')({

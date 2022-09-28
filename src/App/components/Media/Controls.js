@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
   AppBar,
+  Divider,
   Grid,
   IconButton,
   ListItemIcon,
@@ -45,6 +46,7 @@ export default function ({ menuItems }) {
 
   return (
     <AppBar color="transparent" elevation={0} position="relative">
+      <Divider />
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
           <Tooltip title="Previous File">

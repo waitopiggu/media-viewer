@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { existsSync, statSync } from 'fs';
-import { AppBar, InputBase, Toolbar } from '@mui/material';
+import { AppBar, Divider, InputBase, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import actions from '../../store/actions';
 import { util } from '../../shared';
@@ -53,7 +53,7 @@ export default function () {
   };
 
   return (
-    <AppBar color="transparent" elevation={1}>
+    <AppBar color="transparent" elevation={0}>
       <Toolbar disableGutters variant="dense">
         <DriveMenuButton />
         {editing ? (
@@ -75,6 +75,7 @@ export default function () {
           />
         )}
       </Toolbar>
+      <Divider />
     </AppBar>
   );
 }
