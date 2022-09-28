@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Avatar, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { FolderOpen, SaveOutlined } from '@mui/icons-material';
 import actions from '../../store/actions';
-import { util } from '../../shared/lib';
+import { util } from '../../shared';
 
 const IS_WINDOWS_PLATFORM = process.platform === 'win32';
 

@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { getCurrentWindow } from '@electron/remote';
 
 export default createSlice({
-  name: 'main-window',
+  name: 'app',
   initialState: {
-    bounds: getCurrentWindow().getBounds(),
+    windowBounds: getCurrentWindow().getBounds(),
   },
   reducers: {
     merge: (state, action) => ({ ...state, ...action.payload }),

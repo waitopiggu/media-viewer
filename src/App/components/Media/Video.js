@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from 'react-redux';
 import { ToggleOff, ToggleOn } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import actions from '../../store/actions';
-import { appBarHeight } from '../../shared/variables';
+import { appBarHeight } from '../../shared/var';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
 

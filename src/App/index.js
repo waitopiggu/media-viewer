@@ -6,7 +6,7 @@ import { persistStore } from 'redux-persist';
 import { getCurrentWindow } from '@electron/remote';
 import { createRoot } from 'react-dom/client';
 import { Box, CssBaseline } from '@mui/material';
-import { appBarHeight } from './shared/variables';
+import { appBarHeight } from './shared/var';
 import actions from './store/actions';
 import store from './store';
 import { AppBar, DevTools, Directory, Media } from './components';
@@ -23,7 +23,7 @@ function App() {
   const onWindowChange = debounce(() => {
     const currentWindow = getCurrentWindow();
     const bounds = currentWindow.getBounds();
-    dispatch(actions.mainWindow.merge({ bounds }));
+    dispatch(actions.app.merge({ bounds }));
   }, DELAY_MS);
 
   React.useEffect(() => {
@@ -33,8 +33,8 @@ function App() {
     currentWindow.on('move', onWindowChange);
     window.addEventListener('resize', onWindowChange);
 
-    const { mainWindow } = rxStore.getState();
-    currentWindow.setBounds(mainWindow.bounds);
+    const { app } = rxStore.getState();
+    currentWindow.setBounds(app.windowBounds);
     currentWindow.show();
   }, []);
 

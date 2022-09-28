@@ -14,8 +14,8 @@ import {
 } from '@mui/material';
 import { FolderOutlined } from '@mui/icons-material';
 import actions from '../../store/actions';
-import { formatBytes } from '../../shared/lib/util';
-import { appBarHeight, directoryListWidth } from '../../shared/variables';
+import { formatBytes } from '../../shared/util';
+import { appBarHeight, directoryListWidth } from '../../shared/var';
 import AppBar from './AppBar';
 
 const LIST_ITEM_HEIGHT = 64;
@@ -59,6 +59,7 @@ export default function () {
   }, [files, media]);
 
   const renderRow = ({ data, index, style }) => {
+    console.log('render row');
     const file = data[index];
     return (
       <ListItem

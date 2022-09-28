@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import { appBarHeight, directoryListWidth } from '../../shared/variables';
+import { appBarHeight, directoryListWidth } from '../../shared/var';
 import Image from './Image';
 import Video from './Video';
 

@@ -4,7 +4,7 @@ import { existsSync, statSync } from 'fs';
 import { AppBar, InputBase, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import actions from '../../store/actions';
-import { util } from '../../shared/lib';
+import { util } from '../../shared';
 import DriveMenuButton from './DriveMenuButton';
 
 /**

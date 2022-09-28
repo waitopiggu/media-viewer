@@ -1,6 +1,6 @@
 import { readdirSync, statSync } from 'fs';
 import mime from 'mime-types';
-import { util } from '../../shared/lib';
+import { util } from '../../shared';
 import slices from '../slices';
 
 export default [

@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
 import actions from '../../store/actions';
-import { naturalSortBy } from '../../shared/lib/util';
+import { naturalSortBy } from '../../shared/util';
 
 const DELAY_MS = 300;
 

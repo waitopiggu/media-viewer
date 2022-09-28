@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
-import { appBarHeight } from '../../shared/variables';
+import { appBarHeight } from '../../shared/var';
 
 export const backgroundStyles = {
   width: '100%',
