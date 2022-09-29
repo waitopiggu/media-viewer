@@ -5,7 +5,7 @@ import { formatBytes } from '../../shared/util';
 import { directoryListWidth } from '../../shared/var';
 
 const Text = ({ children }) => (
-<Typography sx={{ marginX: 2 }} variant="subtitle2">{children}</Typography>
+  <Typography sx={{ marginX: 2 }} variant="subtitle2">{children}</Typography>
 );
 
 /**
@@ -14,9 +14,9 @@ const Text = ({ children }) => (
 export default function () {
   const files = useSelector((state) => state.files);
 
-  const bytes = React.useMemo(() => {
-    return files.reduce((previous, current) => previous + current.size, 0);
-  }, [files]);
+  const bytes = React.useMemo(() => (
+    files.reduce((previous, current) => previous + current.size, 0)
+  ), [files]);
 
   return (
       <AppBar

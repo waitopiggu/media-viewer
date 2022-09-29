@@ -40,9 +40,13 @@ export default function ({ menuItems }) {
 
   const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
-  const onNextFile = () => dispatch(actions.media.navigate(1));
+  const onNextFile = () => {
+    dispatch(actions.directoryFile.navigate(1));
+  };
 
-  const onPreviousFile = () => dispatch(actions.media.navigate(-1));
+  const onPreviousFile = () => {
+    dispatch(actions.directoryFile.navigate(-1));
+  };
 
   return (
     <AppBar color="transparent" elevation={0} position="relative">

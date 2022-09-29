@@ -4,6 +4,7 @@ import { existsSync, statSync } from 'fs';
 import { AppBar, Divider, InputBase, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import actions from '../../store/actions';
+import { useMedia } from '../../shared/hooks';
 import { util } from '../../shared';
 import DriveMenuButton from './DriveMenuButton';
 
@@ -14,7 +15,7 @@ export default function () {
   const directory = useSelector((state) => state.directory);
   const dispatch = useDispatch();
   const [editing, setEditing] = React.useState(false);
-  const media = useSelector((state) => state.media);
+  const media = useMedia();
   const [path, setPath] = React.useState('');
 
   const dirMedia = React.useMemo(() => {

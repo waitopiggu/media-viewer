@@ -4,6 +4,7 @@ import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import actions from '../../store/actions';
+import { useMedia } from '../../shared/hooks';
 import { appBarHeight } from '../../shared/var';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
@@ -14,7 +15,7 @@ import Controls from './Controls';
 export default function () {
   const dispatch = useDispatch();
   const image = useSelector((state) => state.image);
-  const media = useSelector((state) => state.media);
+  const media = useMedia();
 
   const Img = styled('img')({
     display: 'block',
@@ -73,11 +74,11 @@ export default function () {
   };
 
   const onNext = (event) => {
-    event.detail === 2 && dispatch(actions.media.navigate(1));
+    event.detail === 2 && dispatch(actions.directoryFile.navigate(1));
   };
 
   const onPrevious = () => {
-    dispatch(actions.media.navigate(-1));
+    dispatch(actions.directoryFile.navigate(-1));
   };
 
   React.useEffect(() => {

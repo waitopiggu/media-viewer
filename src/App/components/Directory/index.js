@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { FolderOutlined, Image, Movie } from '@mui/icons-material';
 import actions from '../../store/actions';
+import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
 import { appBarHeight, directoryListWidth } from '../../shared/var';
 import Header from './Header';
@@ -29,7 +30,7 @@ export default function () {
   const files = useSelector((state) => state.files);
   const [fileSearch, setFileSearch] = React.useState('');
   const listRef = React.useRef(0);
-  const media = useSelector((state) => state.media);
+  const media = useMedia();
   const thumbs = useSelector((state) => state.thumbs);
   const store = useStore();
 
@@ -46,7 +47,7 @@ export default function () {
     if (item.isDirectory) {
       dispatch(actions.directory.set(item.path));
     } else {
-      dispatch(actions.media.set(item));
+      dispatch(actions.directoryFile.merge({ [item.directory]: item }));
     }
   };
 
@@ -60,13 +61,9 @@ export default function () {
 
   const renderRow = ({ data, index, style }) => {
     const file = data[index];
+
     return (
-      <ListItem
-        component="div"
-        disablePadding
-        key={index}
-        style={style}
-      >
+      <ListItem component="div" disablePadding key={index} style={style}>
         <ListItemButton
           dense
           onClick={makeItemClick(file)}

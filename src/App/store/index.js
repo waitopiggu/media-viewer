@@ -15,9 +15,9 @@ listeners.forEach((listenerOptions) => {
 const reducers = combineReducers({
   app: slices.app.reducer,
   directory: slices.directory.reducer,
+  directoryFile: slices.directoryFile.reducer,
   files: slices.files.reducer,
   image: slices.image.reducer,
-  media: slices.media.reducer,
   thumbs: slices.thumbs.reducer,
   video: slices.video.reducer,
 });
