@@ -71,9 +71,9 @@ export default function () {
         >
           <ListItemAvatar>
             <Avatar src={thumbs[file.path]}>
-              {file.isDirectory &&  <FolderOutlined />}
-              {file.isImage &&  <Image />}
-              {file.isVideo &&  <Movie />}
+              {file.isDirectory && <FolderOutlined />}
+              {file.isImage && <Image />}
+              {file.isVideo && <Movie />}
             </Avatar>
           </ListItemAvatar>
           <ListItemText

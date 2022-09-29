@@ -25,7 +25,7 @@ export const formatBytes = (bytes, decimals) => {
  * Get POSIX path on any platform
  * @param {string} pathValue
  */
- export const getPosixPath = (pathValue) => (
+export const getPosixPath = (pathValue) => (
   pathValue.split(path.sep).join(path.posix.sep)
 );
 
@@ -81,7 +81,7 @@ export const getMediaThumb = async (file) => {
   ctx.drawImage(mediaEl, 0, 0, width, height);
 
   const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-  await db.add({ dataUrl, directory: file.directory , path: file.path }, 'thumbs');
+  await db.add({ dataUrl, directory: file.directory, path: file.path }, 'thumbs');
 
   return db.get(file.path);
 };

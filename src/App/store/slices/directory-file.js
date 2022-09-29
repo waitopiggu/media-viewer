@@ -5,6 +5,6 @@ export default createSlice({
   initialState: {},
   reducers: {
     merge: (state, action) => ({ ...state, ...action.payload }),
-    navigate: (state, action) => state,
+    navigate: (state, action) => state, // eslint-disable-line no-unused-vars
   },
 });

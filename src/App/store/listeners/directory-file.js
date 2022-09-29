@@ -6,7 +6,6 @@ export default [
     effect: (action, listenerApi) => {
       const { directory, directoryFile, files } = listenerApi.getState();
       const dx = action.payload;
-      console.log(dx)
       const media = directoryFile[directory] || {};
       const index = files.findIndex((file) => file.path === media.path);
       const next = (index + (dx < 0 ? files.length : 0) + dx) % files.length;
