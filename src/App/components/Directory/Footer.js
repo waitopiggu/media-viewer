@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { AppBar, Divider, Grid, Toolbar, Typography } from '@mui/material';
+import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
 import { directoryListWidth } from '../../shared/var';
 
@@ -15,10 +16,15 @@ function Text({ children }) {
  */
 export default function () {
   const files = useSelector((state) => state.files);
+  const media = useMedia();
 
   const bytes = React.useMemo(() => (
     files.reduce((previous, current) => previous + current.size, 0)
   ), [files]);
+
+  const index = React.useMemo(() => (
+    files.findIndex((file) => file.path === media.path)
+  ), [files, media]);
 
   return (
     <AppBar
@@ -29,7 +35,7 @@ export default function () {
       <Divider />
       <Toolbar disableGutters variant="dense">
         <Grid container direction="row" justifyContent="space-between">
-          <Text>{`${files.length} Files`}</Text>
+          <Text>{`${index} of ${files.length} Files`}</Text>
           <Text>{formatBytes(bytes)}</Text>
         </Grid>
       </Toolbar>
