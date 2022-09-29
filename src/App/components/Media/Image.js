@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import actions from '../../store/actions';
 import { useMedia } from '../../shared/hooks';
@@ -10,23 +9,15 @@ import { appBarHeight } from '../../shared/var';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
 
-const styles = {
-  drag: {
-    cursor: 'grabbing',
-  },
-};
-
 /**
  * Media Image Component
  */
 export default function () {
-  const classes = makeStyles(styles)();
   const dispatch = useDispatch();
   const image = useSelector((state) => state.image);
   const media = useMedia();
 
   const Img = styled('img')({
-    cursor: 'grab',
     display: 'block',
     margin: '0 auto',
     width: /contain|width/.test(image.fit) ? '100%' : 'auto',
@@ -107,7 +98,7 @@ export default function () {
       <Background>
         <ImgBg draggable={false} src={media.path} />
       </Background>
-      <ImgScrollContainer draggingClassName={classes.drag} hideScrollbars={false}>
+      <ImgScrollContainer hideScrollbars={false}>
         <Img
           id="media-img"
           draggable={false}

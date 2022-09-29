@@ -10,7 +10,6 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.7",
-    "@mui/styles": "^5.10.7",
     "@redux-devtools/core": "^3.13.1",
     "@redux-devtools/dock-monitor": "^3.0.1",
     "@redux-devtools/log-monitor": "^4.0.1",
