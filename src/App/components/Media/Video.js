@@ -33,6 +33,9 @@ export default function () {
 
   const menuItems = React.useMemo(() => [
     {
+      subheader: 'Video Playback',
+    },
+    {
       Icon: autoplay ? ToggleOn : ToggleOff,
       onClick: () => {
         dispatch(actions.video.merge({ autoplay: !autoplay }));

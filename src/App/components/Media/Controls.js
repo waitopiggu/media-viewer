@@ -5,10 +5,12 @@ import {
   Divider,
   Grid,
   IconButton,
+  List,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Menu,
-  MenuItem,
+  ListSubheader,
+  Popover,
   Toolbar,
   Tooltip,
 } from '@mui/material';
@@ -29,24 +31,25 @@ export default function ({ menuItems }) {
     setAnchorEl(null);
   };
 
-  const mapMenuItem = ({ Icon, label, onClick }, index) => (
-    <MenuItem key={index} onClick={makeMenuItemClick(onClick)}>
-      <ListItemIcon><Icon fontSize="small" /></ListItemIcon>
-      <ListItemText>{label}</ListItemText>
-    </MenuItem>
+  const mapMenuItem = ({ Icon, label, onClick, subheader }, index) => (
+    subheader ? (
+      <React.Fragment key={index}>
+        <ListSubheader>{subheader}</ListSubheader>
+        <Divider />
+      </React.Fragment>
+    ) : (
+      <ListItemButton key={index} onClick={makeMenuItemClick(onClick)}>
+        <ListItemIcon><Icon fontSize="small" /></ListItemIcon>
+        <ListItemText>{label}</ListItemText>
+      </ListItemButton>
+    )
   );
 
   const onMenuClose = () => setAnchorEl(null);
-
   const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
-  const onNextFile = () => {
-    dispatch(actions.directoryFile.navigate(1));
-  };
-
-  const onPreviousFile = () => {
-    dispatch(actions.directoryFile.navigate(-1));
-  };
+  const onNextFile = () => dispatch(actions.directoryFile.navigate(1));
+  const onPreviousFile = () => dispatch(actions.directoryFile.navigate(-1));
 
   return (
     <AppBar color="transparent" elevation={0} position="relative">
@@ -70,9 +73,9 @@ export default function ({ menuItems }) {
           </Tooltip>
         </Grid>
       </Toolbar>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
-        {menuItems.map(mapMenuItem)}
-      </Menu>
+      <Popover anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
+        <List>{menuItems.map(mapMenuItem)}</List>
+      </Popover>
     </AppBar>
   );
 }

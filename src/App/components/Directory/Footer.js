@@ -35,7 +35,7 @@ export default function () {
       <Divider />
       <Toolbar disableGutters variant="dense">
         <Grid container direction="row" justifyContent="space-between">
-          <Text>{`${index} of ${files.length} Files`}</Text>
+          <Text>{index >= 0 && `${index + 1} of `}{`${files.length} Items`}</Text>
           <Text>{formatBytes(bytes)}</Text>
         </Grid>
       </Toolbar>

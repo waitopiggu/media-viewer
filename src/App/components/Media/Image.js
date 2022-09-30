@@ -37,19 +37,22 @@ export default function () {
 
   const menuItems = React.useMemo(() => [
     {
+      subheader: 'Image Fit',
+    },
+    {
       Icon: image.fit === 'none' ? RadioButtonChecked : RadioButtonUnchecked,
       onClick: () => dispatch(actions.image.merge({ fit: 'none' })),
-      label: 'Fit None',
+      label: 'None',
     },
     {
       Icon: image.fit === 'contain' ? RadioButtonChecked : RadioButtonUnchecked,
       onClick: () => dispatch(actions.image.merge({ fit: 'contain' })),
-      label: 'Fit Contain',
+      label: 'Contain',
     },
     {
       Icon: image.fit === 'width' ? RadioButtonChecked : RadioButtonUnchecked,
       onClick: () => dispatch(actions.image.merge({ fit: 'width' })),
-      label: 'Fit Width',
+      label: 'Width',
     },
   ], [image]);
 
