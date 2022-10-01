@@ -32,7 +32,7 @@ module.exports = (env, argv) => ({
       ],
     }),
     new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(argv.mode),
+      __DEV__: argv.mode === 'development',
     }),
     new HtmlPlugin({
       filename: 'index.html',

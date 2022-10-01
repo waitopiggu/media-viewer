@@ -28,10 +28,8 @@ const persistConfig = {
   blacklist: [slices.files.name, slices.thumbs.name],
 };
 
-const persistedReducer = persistReducer(persistConfig, reducers);
-
 export default configureStore({
   middleware: [listenerMiddleware.middleware],
-  reducer: persistedReducer,
-  enhancers: [DevTools.instrument()],
+  reducer: persistReducer(persistConfig, reducers),
+  enhancers: __DEV__ ? [DevTools.instrument()] : [],
 });

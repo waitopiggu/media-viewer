@@ -7,6 +7,7 @@ module.exports = {
   },
   extends: ['airbnb'],
   globals: {
+    __DEV__: true,
     document: true,
     window: true,
   },

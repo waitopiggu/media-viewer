@@ -40,7 +40,7 @@ function App() {
 
   return (
     <>
-      {process.env.NODE_ENV === 'development' && <DevTools />}
+      {__DEV__ && <DevTools />}
       <CssBaseline />
       <AppBar />
       <Box sx={{ height: appBarHeight }} />
