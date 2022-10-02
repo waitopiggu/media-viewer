@@ -35,7 +35,7 @@ export const getPosixPath = (pathValue) => (
  * @param {string} filePath
  */
 export const getMediaThumb = async (file) => {
-  const thumb = await db.get(file.path);
+  const thumb = await db.thumbs.get(file.path);
   if (thumb) return thumb;
 
   let mediaEl = null;
@@ -80,10 +80,13 @@ export const getMediaThumb = async (file) => {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(mediaEl, 0, 0, width, height);
 
-  const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-  await db.add({ dataUrl, directory: file.directory, path: file.path }, 'thumbs');
+  await db.thumbs.add({
+    dataUrl: canvas.toDataURL('image/jpeg', 0.8),
+    directory: file.directory,
+    path: file.path
+  }, 'thumbs');
 
-  return db.get(file.path);
+  return db.thumbs.get(file.path);
 };
 
 /**

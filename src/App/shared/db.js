@@ -11,10 +11,22 @@ const dbPromise = openDB(DB_NAME, 1, {
   },
 });
 
-export const add = async (data) => (await dbPromise).add(THUMB_STORE_NAME, data);
-
-export const get = async (key) => (await dbPromise).get(THUMB_STORE_NAME, key);
-
-export const txn = async (mode) => (await dbPromise).transaction(THUMB_STORE_NAME, mode);
-
-export default { add, get, txn };
+export default {
+  thumbs: {
+    /**
+     * DB thumbs add
+     * @param {any} data
+     */
+    add: async (data) => (await dbPromise).add(THUMB_STORE_NAME, data),
+    /**
+     * DB thumbs get
+     * @param {string} key - file path
+     */
+    get: async (key) => (await dbPromise).get(THUMB_STORE_NAME, key),
+    /**
+     * DB thumbs transaction
+     * @param {string} mode - readonly | readwrite
+     */
+    txn: async (mode) => (await dbPromise).transaction(THUMB_STORE_NAME, mode),
+  },
+};

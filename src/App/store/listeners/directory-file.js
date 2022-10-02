@@ -1,5 +1,5 @@
 import { existsSync } from 'fs';
-import { DIRECTORY_INDEX_NAME, txn } from '../../shared/db';
+import db, { DIRECTORY_INDEX_NAME } from '../../shared/db';
 import slices from '../slices';
 
 export default [
@@ -12,7 +12,7 @@ export default [
 
       await Promise.all(dirs.map(async (dir) => {
         if (!existsSync(dir)) {
-          const { store } = await txn('readwrite');
+          const { store } = await db.thumbs.txn('readwrite');
           const index = store.index(DIRECTORY_INDEX_NAME);
           for await (const cursor of index.iterate(dir)) {
             cursor.delete();
