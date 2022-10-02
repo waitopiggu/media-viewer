@@ -27,6 +27,7 @@ function App() {
   }, DELAY_MS);
 
   React.useEffect(() => {
+    dispatch(actions.directoryFile.clean());
     document.body.style.overflow = 'hidden';
 
     const currentWindow = getCurrentWindow();

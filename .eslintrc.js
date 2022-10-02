@@ -17,6 +17,7 @@ module.exports = {
     'import/no-named-as-default-member': 0,
     'import/prefer-default-export': 0,
     'no-console': 0,
+    'no-restricted-syntax': 0,
     'no-unused-expressions': 0,
     'no-unused-vars': 0,
     'object-curly-newline': 0,
