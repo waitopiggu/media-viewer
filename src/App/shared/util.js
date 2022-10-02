@@ -9,7 +9,7 @@ import db from './db';
  * @param {number} bytes
  * @param {number} decimals
  */
-export const formatBytes = (bytes, decimals) => {
+export const formatBytes = (bytes, decimals = 2) => {
   if (!+bytes) return '0 Bytes';
 
   const k = 1024;
@@ -31,8 +31,7 @@ export const getPosixPath = (pathValue) => (
 
 /**
  * Get Image/Video thumb from db (or create and get)
- * @param {string} directory
- * @param {string} filePath
+ * @param {any} file
  */
 export const getMediaThumb = async (file) => {
   const thumb = await db.thumbs.get(file.path);
