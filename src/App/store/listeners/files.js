@@ -3,6 +3,8 @@ import mime from 'mime-types';
 import { util } from '../../shared';
 import slices from '../slices';
 
+const getPath = (dir, name) => `${dir}/${name}`.replace('//', '/', 'g');
+
 export default [
   {
     actionCreator: slices.directory.actions.set,
@@ -13,7 +15,7 @@ export default [
 
       await Promise.all(filenames.map(async (name) => {
         try {
-          const path = `${directory}/${name}`;
+          const path = getPath(directory, name);
           const stats = statSync(path);
           const type = mime.lookup(path);
 
