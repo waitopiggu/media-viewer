@@ -1,12 +1,16 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { normalize } from 'path';
 import { existsSync, statSync } from 'fs';
-import { AppBar, Divider, InputBase, Toolbar } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { dialog } from '@electron/remote';
+import {
+  AppBar, Divider, IconButton, InputBase, Toolbar, Tooltip,
+} from '@mui/material';
+import { FolderOpen } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import actions from '../../store/actions';
-import { useMedia } from '../../shared/hooks';
-import { util } from '../../shared';
-import DriveMenuButton from './DriveMenuButton';
+import actions from '../store/actions';
+import { useMedia } from '../shared/hooks';
+import { util } from '../shared';
 
 /**
  * AppBar Component
@@ -18,16 +22,17 @@ export default function () {
   const media = useMedia();
   const [path, setPath] = React.useState('');
 
-  const dirMedia = React.useMemo(() => {
-    if (media && directory === media.directory) {
-      return media.path;
-    }
-    return directory;
-  }, [directory, media]);
-
   const Form = styled('form')({
     width: '100%',
   });
+
+  const defaultPath = React.useMemo(() => (
+    process.platform === 'win32' ? normalize(directory) : directory
+  ), [directory]);
+
+  const dirMedia = React.useMemo(() => (
+    media && directory === media.directory ? media.path : directory
+  ), [directory, media]);
 
   const onEditPath = () => {
     setEditing(true);
@@ -53,10 +58,29 @@ export default function () {
     setPath('');
   };
 
+  const onShowDialog = async () => {
+    try {
+      const { canceled, filePaths } = await dialog.showOpenDialog({
+        defaultPath,
+        properties: ['openDirectory'],
+      });
+      if (!canceled) {
+        const next = util.getPosixPath(filePaths[0]);
+        dispatch(actions.directory.set(next));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <AppBar color="transparent" elevation={0}>
       <Toolbar disableGutters variant="dense">
-        <DriveMenuButton />
+        <Tooltip placement="right" title="Open Directory">
+          <IconButton onClick={onShowDialog} sx={{ marginX: 2 }}>
+            <FolderOpen />
+          </IconButton>
+        </Tooltip>
         {editing ? (
           <Form onSubmit={onPathSet} sx={{ flexGrow: 1 }}>
             <InputBase
@@ -68,12 +92,14 @@ export default function () {
             />
           </Form>
         ) : (
-          <InputBase
-            fullWidth
-            onClick={onEditPath}
-            readOnly
-            value={dirMedia}
-          />
+          <Tooltip placement="bottom-start" title="Edit Path">
+            <InputBase
+              fullWidth
+              onClick={onEditPath}
+              readOnly
+              value={dirMedia}
+            />
+          </Tooltip>
         )}
       </Toolbar>
       <Divider />

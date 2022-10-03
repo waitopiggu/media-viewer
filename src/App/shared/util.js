@@ -22,14 +22,6 @@ export const formatBytes = (bytes, decimals = 2) => {
 };
 
 /**
- * Get POSIX path on any platform
- * @param {string} pathValue
- */
-export const getPosixPath = (pathValue) => (
-  pathValue.split(path.sep).join(path.posix.sep)
-);
-
-/**
  * Get Image/Video thumb from db (or create and get)
  * @param {any} file
  */
@@ -82,27 +74,19 @@ export const getMediaThumb = async (file) => {
   await db.thumbs.add({
     dataUrl: canvas.toDataURL('image/jpeg', 0.8),
     directory: file.directory,
-    path: file.path
+    path: file.path,
   }, 'thumbs');
 
   return db.thumbs.get(file.path);
 };
 
 /**
- * List Windows drives
- * Adapted from https://stackoverflow.com/a/52411712
+ * Get POSIX path on any platform
+ * @param {string} pathValue
  */
-export const listWindowsDrives = () => new Promise((resolve, reject) => {
-  childProcess.exec('wmic logicaldisk get name', (error, stdout) => {
-    if (error) {
-      reject(error);
-    } else {
-      const lines = stdout.split('\r\r\n').map((line) => line.trim());
-      const drives = lines.filter((value) => /[A-Za-z]:/.test(value));
-      resolve(drives);
-    }
-  });
-});
+export const getPosixPath = (pathValue) => (
+  pathValue.split(path.sep).join(path.posix.sep)
+);
 
 /**
  * Natural Sort-by
@@ -117,6 +101,5 @@ export default {
   formatBytes,
   getMediaThumb,
   getPosixPath,
-  listWindowsDrives,
   naturalSortBy,
 };
