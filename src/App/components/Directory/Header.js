@@ -96,11 +96,7 @@ export default function ({ onFileSearch }) {
       <AppBar color="transparent" elevation={0} position="relative">
         <Toolbar disableGutters variant="dense">
           <Tooltip placement="right" title="Parent Directory">
-            <IconButton
-              disabled={parentDir === directory}
-              onClick={onParentDirClick}
-              sx={buttonStyle}
-            >
+            <IconButton onClick={onParentDirClick} sx={buttonStyle}>
               <DriveFolderUpload />
             </IconButton>
           </Tooltip>

@@ -4,10 +4,10 @@ import { existsSync, statSync } from 'fs';
 import { useDispatch, useSelector } from 'react-redux';
 import { dialog } from '@electron/remote';
 import {
-  AppBar, Divider, IconButton, InputBase, Toolbar, Tooltip,
+  AppBar, Divider, IconButton, InputBase, Toolbar, Tooltip, Typography,
 } from '@mui/material';
 import { FolderOpen } from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import actions from '../store/actions';
 import { useMedia } from '../shared/hooks';
 import { util } from '../shared';
@@ -21,6 +21,7 @@ export default function () {
   const [editing, setEditing] = React.useState(false);
   const media = useMedia();
   const [path, setPath] = React.useState('');
+  const { palette } = useTheme();
 
   const Form = styled('form')({
     width: '100%',
@@ -92,13 +93,22 @@ export default function () {
             />
           </Form>
         ) : (
-          <Tooltip placement="bottom-start" title="Edit Path">
-            <InputBase
-              fullWidth
+          <Tooltip placement="right" title="Edit Path">
+            <Typography
               onClick={onEditPath}
-              readOnly
-              value={dirMedia}
-            />
+              sx={{
+                cursor: 'pointer',
+                marginBottom: '1px',
+                textDecoration: 'underline',
+                textDecorationColor: 'rgba(0, 0, 0, 0)',
+                transition: 'text-decoration-color 200ms',
+                ':hover': {
+                  textDecorationColor: palette.text.primary,
+                },
+              }}
+            >
+              {dirMedia}
+            </Typography>
           </Tooltip>
         )}
       </Toolbar>
