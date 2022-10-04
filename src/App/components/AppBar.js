@@ -7,7 +7,7 @@ import {
   AppBar, Divider, IconButton, InputBase, Toolbar, Tooltip, Typography,
 } from '@mui/material';
 import { FolderOpen } from '@mui/icons-material';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import actions from '../store/actions';
 import { useMedia } from '../shared/hooks';
 import { util } from '../shared';
@@ -21,7 +21,6 @@ export default function () {
   const [editing, setEditing] = React.useState(false);
   const media = useMedia();
   const [path, setPath] = React.useState('');
-  const { palette } = useTheme();
 
   const Form = styled('form')({
     width: '100%',
@@ -75,10 +74,10 @@ export default function () {
   };
 
   return (
-    <AppBar color="transparent" elevation={0}>
+    <AppBar elevation={0}>
       <Toolbar disableGutters variant="dense">
         <Tooltip placement="right" title="Open Directory">
-          <IconButton onClick={onShowDialog} sx={{ marginX: 2 }}>
+          <IconButton onClick={onShowDialog} sx={{ color: 'inherit', marginX: 2 }}>
             <FolderOpen />
           </IconButton>
         </Tooltip>
@@ -89,6 +88,7 @@ export default function () {
               fullWidth
               onBlur={onPathSet}
               onChange={onPathChange}
+              sx={{ color: 'inherit' }}
               value={path}
             />
           </Form>
@@ -103,7 +103,7 @@ export default function () {
                 textDecorationColor: 'rgba(0, 0, 0, 0)',
                 transition: 'text-decoration-color 200ms',
                 ':hover': {
-                  textDecorationColor: palette.text.primary,
+                  textDecorationColor: 'inherit',
                 },
               }}
             >

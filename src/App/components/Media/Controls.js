@@ -57,17 +57,17 @@ export default function ({ menuItems }) {
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
           <Tooltip title="Previous File">
-            <IconButton onClick={onPreviousFile}>
+            <IconButton color="primary" onClick={onPreviousFile}>
               <KeyboardArrowLeft />
             </IconButton>
           </Tooltip>
           <Tooltip title="Settings">
-            <IconButton onClick={onMenuOpen}>
+            <IconButton color="primary" onClick={onMenuOpen}>
               <Settings />
             </IconButton>
           </Tooltip>
           <Tooltip title="Next File">
-            <IconButton onClick={onNextFile}>
+            <IconButton color="primary" onClick={onNextFile}>
               <KeyboardArrowRight />
             </IconButton>
           </Tooltip>

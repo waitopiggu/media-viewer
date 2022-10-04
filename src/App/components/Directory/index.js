@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FolderOutlined, Image, Movie } from '@mui/icons-material';
+import { useTheme } from '@mui/material/styles';
 import actions from '../../store/actions';
 import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
@@ -33,6 +34,7 @@ export default function () {
   const media = useMedia();
   const thumbs = useSelector((state) => state.thumbs);
   const store = useStore();
+  const theme = useTheme();
 
   React.useEffect(() => {
     const storeDirectory = store.getState().directory;
@@ -70,7 +72,10 @@ export default function () {
           selected={media && media.path === file.path}
         >
           <ListItemAvatar>
-            <Avatar src={thumbs[file.path]}>
+            <Avatar
+              src={thumbs[file.path]}
+              sx={{ bgcolor: theme.palette.primary.main }}
+            >
               {file.isDirectory && <FolderOutlined />}
               {file.isImage && <Image />}
               {file.isVideo && <Movie />}

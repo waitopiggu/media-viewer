@@ -28,7 +28,6 @@ export default function () {
 
   return (
     <AppBar
-      color="transparent"
       elevation={0}
       sx={{ bottom: 0, left: 0, top: 'auto', width: directoryListWidth }}
     >

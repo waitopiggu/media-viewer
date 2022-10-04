@@ -75,7 +75,7 @@ export default function ({ onFileSearch }) {
 
   const onMenuOpen = (event) => setAnchorEl(event.currentTarget);
 
-  const onParentDirClick = () => {
+  const onParentDir = () => {
     dispatch(actions.directory.set(parentDir));
     onFileSearch('');
     setSearchValue('');
@@ -96,7 +96,7 @@ export default function ({ onFileSearch }) {
       <AppBar color="transparent" elevation={0} position="relative">
         <Toolbar disableGutters variant="dense">
           <Tooltip placement="right" title="Parent Directory">
-            <IconButton onClick={onParentDirClick} sx={buttonStyle}>
+            <IconButton color="primary" onClick={onParentDir} sx={buttonStyle}>
               <DriveFolderUpload />
             </IconButton>
           </Tooltip>
@@ -107,7 +107,7 @@ export default function ({ onFileSearch }) {
             value={searchValue}
           />
           <Tooltip placement="left" title="Sort Files">
-            <IconButton onClick={onMenuOpen} sx={buttonStyle}>
+            <IconButton color="primary" onClick={onMenuOpen} sx={buttonStyle}>
               <Sort />
             </IconButton>
           </Tooltip>
