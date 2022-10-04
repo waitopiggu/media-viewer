@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import actions from '../../store/actions';
 import { useMedia } from '../../shared/hooks';
-import { appBarHeight } from '../../shared/var';
+import { appBarHeight } from '../../shared/vars';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
 

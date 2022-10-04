@@ -16,7 +16,7 @@ import { useTheme } from '@mui/material/styles';
 import actions from '../../store/actions';
 import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
-import { appBarHeight, directoryListWidth } from '../../shared/var';
+import { appBarHeight, directoryListWidth } from '../../shared/vars';
 import Header from './Header';
 import Footer from './Footer';
 

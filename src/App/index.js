@@ -6,7 +6,7 @@ import { persistStore } from 'redux-persist';
 import { getCurrentWindow } from '@electron/remote';
 import { createRoot } from 'react-dom/client';
 import { Box, CssBaseline, Divider } from '@mui/material';
-import { appBarHeight } from './shared/var';
+import { appBarHeight } from './shared/vars';
 import actions from './store/actions';
 import store from './store';
 import { AppBar, DevTools, Directory, Media } from './components';

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { AppBar, Divider, Grid, Toolbar, Typography } from '@mui/material';
 import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
-import { directoryListWidth } from '../../shared/var';
+import { directoryListWidth } from '../../shared/vars';
 
 function Text({ children }) {
   return (

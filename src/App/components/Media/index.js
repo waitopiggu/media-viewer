@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { useMedia } from '../../shared/hooks';
-import { appBarHeight, directoryListWidth } from '../../shared/var';
+import { appBarHeight, directoryListWidth } from '../../shared/vars';
 import Image from './Image';
 import Video from './Video';
 

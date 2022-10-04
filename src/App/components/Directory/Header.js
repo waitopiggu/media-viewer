@@ -95,7 +95,7 @@ export default function ({ onFileSearch }) {
     <>
       <AppBar color="transparent" elevation={0} position="relative">
         <Toolbar disableGutters variant="dense">
-          <Tooltip placement="right" title="Parent Directory">
+          <Tooltip arrow placement="right" title="Parent Directory">
             <IconButton color="primary" onClick={onParentDir} sx={buttonStyle}>
               <DriveFolderUpload />
             </IconButton>
@@ -106,7 +106,7 @@ export default function ({ onFileSearch }) {
             placeholder="Search files..."
             value={searchValue}
           />
-          <Tooltip placement="left" title="Sort Files">
+          <Tooltip arrow placement="left" title="Sort Files">
             <IconButton color="primary" onClick={onMenuOpen} sx={buttonStyle}>
               <Sort />
             </IconButton>

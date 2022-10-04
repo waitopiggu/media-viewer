@@ -76,7 +76,7 @@ export default function () {
   return (
     <AppBar elevation={0}>
       <Toolbar disableGutters variant="dense">
-        <Tooltip placement="right" title="Open Directory">
+        <Tooltip arrow placement="right" title="Open Directory">
           <IconButton onClick={onShowDialog} sx={{ color: 'inherit', marginX: 2 }}>
             <FolderOpen />
           </IconButton>
@@ -93,7 +93,7 @@ export default function () {
             />
           </Form>
         ) : (
-          <Tooltip placement="right" title="Edit Path">
+          <Tooltip arrow placement="right" title="Edit Path">
             <Typography
               onClick={onEditPath}
               sx={{

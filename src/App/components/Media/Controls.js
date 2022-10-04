@@ -56,17 +56,17 @@ export default function ({ menuItems }) {
       <Divider />
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
-          <Tooltip title="Previous File">
+          <Tooltip arrow title="Previous File">
             <IconButton color="primary" onClick={onPreviousFile}>
               <KeyboardArrowLeft />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Settings">
+          <Tooltip arrow title="Settings">
             <IconButton color="primary" onClick={onMenuOpen}>
               <Settings />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Next File">
+          <Tooltip arrow title="Next File">
             <IconButton color="primary" onClick={onNextFile}>
               <KeyboardArrowRight />
             </IconButton>
