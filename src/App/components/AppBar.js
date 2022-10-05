@@ -31,7 +31,7 @@ export default function () {
   ), [directory]);
 
   const dirMedia = React.useMemo(() => (
-    media && directory === media.directory ? media.path : directory
+    media && !media.isDirectory ? media.path : directory
   ), [directory, media]);
 
   const onEditPath = () => {
@@ -82,7 +82,7 @@ export default function () {
           </IconButton>
         </Tooltip>
         {editing ? (
-          <Form onSubmit={onPathSet} sx={{ flexGrow: 1 }}>
+          <Form onSubmit={onPathSet}>
             <InputBase
               autoFocus
               fullWidth

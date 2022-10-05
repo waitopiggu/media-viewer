@@ -5,7 +5,7 @@ import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
 import { directoryListWidth } from '../../shared/vars';
 
-function Text({ children }) {
+function FooterText({ children }) {
   return (
     <Typography sx={{ marginX: 2 }} variant="subtitle2">{children}</Typography>
   );
@@ -34,11 +34,11 @@ export default function () {
       <Divider />
       <Toolbar disableGutters variant="dense">
         <Grid container direction="row" justifyContent="space-between">
-          <Text>
+          <FooterText>
             {index >= 0 && `${index + 1} of `}
             {`${files.length} Items`}
-          </Text>
-          <Text>{formatBytes(bytes)}</Text>
+          </FooterText>
+          {Boolean(bytes) && <FooterText>{formatBytes(bytes)}</FooterText>}
         </Grid>
       </Toolbar>
     </AppBar>
