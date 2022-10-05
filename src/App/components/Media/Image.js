@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RadioButtonChecked, RadioButtonUnchecked } from '@mui/icons-material';
+import {
+  RadioButtonChecked, RadioButtonUnchecked, ToggleOff, ToggleOn,
+} from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import actions from '../../store/actions';
@@ -22,6 +24,7 @@ export default function () {
     margin: '0 auto',
     width: /contain|width/.test(image.fit) ? '100%' : 'auto',
     height: image.fit === 'contain' ? '100%' : 'auto',
+    imageRendering: image.pixelated ? 'pixelated' : 'auto',
     objectFit: 'contain',
     userSelect: 'none',
     transition: 'opacity 0.1s ease',
@@ -53,6 +56,14 @@ export default function () {
       Icon: image.fit === 'width' ? RadioButtonChecked : RadioButtonUnchecked,
       onClick: () => dispatch(actions.image.merge({ fit: 'width' })),
       label: 'Width',
+    },
+    {
+      subheader: 'Image Render',
+    },
+    {
+      Icon: image.pixelated ? ToggleOn : ToggleOff,
+      onClick: () => dispatch(actions.image.merge({ pixelated: !image.pixelated })),
+      label: 'Pixelated',
     },
   ], [image]);
 
