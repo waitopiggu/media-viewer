@@ -46,11 +46,8 @@ export default function () {
   ) : files), [files, fileSearch]);
 
   const makeItemClick = (item) => () => {
-    if (item.isDirectory) {
-      dispatch(actions.directory.set(item.path));
-    } else {
-      dispatch(actions.directoryFile.merge({ [item.directory]: item }));
-    }
+    dispatch(actions.directoryFile.merge({ [item.directory]: item }));
+    item.isDirectory && dispatch(actions.directory.set(item.path));
   };
 
   const onListRef = React.useCallback((listEl) => {
