@@ -22,8 +22,8 @@ function App() {
 
   const onWindowChange = debounce(() => {
     const currentWindow = getCurrentWindow();
-    const bounds = currentWindow.getBounds();
-    dispatch(actions.app.merge({ bounds }));
+    const windowBounds = currentWindow.getBounds();
+    dispatch(actions.app.merge({ windowBounds }));
   }, DELAY_MS);
 
   React.useEffect(() => {
