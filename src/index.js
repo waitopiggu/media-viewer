@@ -23,7 +23,7 @@ const MIN_HEIGHT = 600;
         },
       });
 
-      mainWindow.autoHideMenuBar =  true;
+      mainWindow.autoHideMenuBar = true;
       mainWindow.menuBarVisible = false;
       process.argv[2] === 'DEV' && mainWindow.webContents.openDevTools();
 
