@@ -31,7 +31,7 @@ export default function () {
   ), [directory]);
 
   const dirMedia = React.useMemo(() => (
-    media && !media.isDirectory ? media.path : directory
+    media.isImage || media.isVideo ? media.path : directory
   ), [directory, media]);
 
   const onEditPath = () => {
