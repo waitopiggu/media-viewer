@@ -6,6 +6,5 @@ export default {
   directoryFile: slices.directoryFile.actions,
   files: slices.files.actions,
   image: slices.image.actions,
-  thumbs: slices.thumbs.actions,
   video: slices.video.actions,
 };

@@ -18,14 +18,13 @@ const reducers = combineReducers({
   directoryFile: slices.directoryFile.reducer,
   files: slices.files.reducer,
   image: slices.image.reducer,
-  thumbs: slices.thumbs.reducer,
   video: slices.video.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: [slices.files.name, slices.thumbs.name],
+  blacklist: [slices.files.name],
 };
 
 export default configureStore({

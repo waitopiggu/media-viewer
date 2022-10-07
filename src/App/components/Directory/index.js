@@ -14,7 +14,7 @@ import {
 import { FolderOutlined, Image, Movie } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import actions from '../../store/actions';
-import { useMedia } from '../../shared/hooks';
+import { useMedia, useThumbs } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
 import { appBarHeight, directoryListWidth } from '../../shared/vars';
 import Header from './Header';
@@ -32,7 +32,7 @@ export default function () {
   const [fileSearch, setFileSearch] = React.useState('');
   const listRef = React.useRef(0);
   const media = useMedia();
-  const thumbs = useSelector((state) => state.thumbs);
+  const thumbs = useThumbs();
   const store = useStore();
   const theme = useTheme();
 

@@ -3,7 +3,6 @@ import directory from './directory';
 import directoryFile from './directory-file';
 import files from './files';
 import image from './image';
-import thumbs from './thumbs';
 import video from './video';
 
 export default {
@@ -12,6 +11,5 @@ export default {
   directoryFile,
   files,
   image,
-  thumbs,
   video,
 };
