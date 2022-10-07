@@ -2,23 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList } from 'react-window';
-import {
-  Avatar,
-  Box,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from '@mui/material';
-import { FolderOutlined, Image, Movie } from '@mui/icons-material';
-import { useTheme } from '@mui/material/styles';
+import { Box } from '@mui/material';
 import actions from '../../store/actions';
-import { useMedia, useThumbs } from '../../shared/hooks';
-import { formatBytes } from '../../shared/util';
+import { useMedia } from '../../shared/hooks';
 import { appBarHeight, directoryListWidth } from '../../shared/vars';
 import Header from './Header';
 import Footer from './Footer';
+import useRenderRow from './use-render-row';
 
 const LIST_ITEM_HEIGHT = 64;
 const LIST_OVERSCAN_COUNT = 5;
@@ -32,9 +22,8 @@ export default function () {
   const [fileSearch, setFileSearch] = React.useState('');
   const listRef = React.useRef(0);
   const media = useMedia();
-  const thumbs = useThumbs();
+  const renderRow = useRenderRow();
   const store = useStore();
-  const theme = useTheme();
 
   React.useEffect(() => {
     const storeDirectory = store.getState().directory;
@@ -45,11 +34,6 @@ export default function () {
     files.filter((file) => file.name.toLowerCase().includes(fileSearch))
   ) : files), [files, fileSearch]);
 
-  const makeItemClick = (item) => () => {
-    dispatch(actions.directoryFile.merge({ [item.directory]: item }));
-    item.isDirectory && dispatch(actions.directory.set(item.path));
-  };
-
   const onListRef = React.useCallback((listEl) => {
     listRef.current = listEl;
     if (listRef.current) {
@@ -57,51 +41,6 @@ export default function () {
       listRef.current.scrollToItem(index < 0 ? 0 : index, 'smart');
     }
   }, [files, media]);
-
-  const renderRow = ({ data, index, style }) => {
-    const file = data[index];
-
-    return (
-      <ListItem component="div" disablePadding key={index} style={style}>
-        <ListItemButton
-          dense
-          onClick={makeItemClick(file)}
-          selected={file.path === media.path}
-        >
-          <ListItemAvatar>
-            <Avatar
-              src={thumbs[file.path]}
-              sx={{ bgcolor: theme.palette.primary.main }}
-            >
-              {file.isDirectory && <FolderOutlined />}
-              {file.isImage && <Image />}
-              {file.isVideo && <Movie />}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={(<Typography noWrap>{file.name}</Typography>)}
-            secondary={(
-              <Box component="span" sx={{ display: 'flex' }}>
-                <Typography component="span" variant="caption">
-                  {file.date.toLocaleString()}
-                </Typography>
-                {!file.isDirectory && (
-                  <Typography
-                    align="right"
-                    component="span"
-                    sx={{ flexGrow: 1 }}
-                    variant="caption"
-                  >
-                    {formatBytes(file.size)}
-                  </Typography>
-                )}
-              </Box>
-            )}
-          />
-        </ListItemButton>
-      </ListItem>
-    );
-  };
 
   return (
     <Box sx={{
