@@ -53,7 +53,7 @@ export default function () {
   const onListRef = React.useCallback((listEl) => {
     listRef.current = listEl;
     if (listRef.current) {
-      const index = files.findIndex((file) => media && file.path === media.path);
+      const index = files.findIndex((file) => file.path === media.path);
       listRef.current.scrollToItem(index < 0 ? 0 : index, 'smart');
     }
   }, [files, media]);
@@ -66,7 +66,7 @@ export default function () {
         <ListItemButton
           dense
           onClick={makeItemClick(file)}
-          selected={media && media.path === file.path}
+          selected={file.path === media.path}
         >
           <ListItemAvatar>
             <Avatar
