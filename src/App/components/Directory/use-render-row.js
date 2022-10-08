@@ -66,5 +66,5 @@ export default () => {
         </ListItemButton>
       </ListItem>
     );
-  }, [thumbs]);
+  }, [media, thumbs]);
 };
