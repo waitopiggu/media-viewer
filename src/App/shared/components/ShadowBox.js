@@ -2,11 +2,15 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const FROM_COLOR = 'rgba(0, 0, 0, 0.2) 0px';
-const TO_COLOR = 'rgba(0, 0, 0, 0) 5px';
+const steps = [
+  'rgba(0, 0, 0, 0.3) 0px',
+  'rgba(0, 0, 0, 0.2) 1px',
+  'rgba(0, 0, 0, 0.1) 2px',
+  'rgba(0, 0, 0, 0.0) 3px',
+];
 
-const getStyle = (position) => ({
-  background: `linear-gradient(to ${position}, ${FROM_COLOR}, ${TO_COLOR})`,
+const getStyle = (side) => ({
+  background: `linear-gradient(to ${side}, ${steps.join(',')})`,
 });
 
 /**
@@ -26,24 +30,24 @@ export default forwardRef(({
   useImperativeHandle(ref, () => ({
     /**
      * Display Shadow
-     * @param {number} x - x-offset
-     * @param {number} y - y-offset
+     * @param {number} cl - client-left
+     * @param {number} ct - client-top
      * @param {number} cw - client-width
      * @param {number} ch - client-height
      * @param {number} sw - scroll-width
      * @param {number} sh - scroll-height
      */
-    calculate(x, y, cw, ch, sw, sh) {
+    calculate(cl, ct, cw, ch, sw, sh) {
       if (sw > cw) {
-        leftRef.current.style.opacity = Number(x > 0);
-        rightRef.current.style.opacity = Number(Math.round(x + cw) < Math.round(sw));
+        leftRef.current.style.opacity = Number(cl > 0);
+        rightRef.current.style.opacity = Number(Math.round(cl + cw) < Math.round(sw));
       } else {
         leftRef.current.style.opacity = 0;
         rightRef.current.style.opacity = 0;
       }
       if (sh > ch) {
-        topRef.current.style.opacity = Number(y > 0);
-        bottomRef.current.style.opacity = Number(Math.round(y + ch) < Math.round(sh));
+        topRef.current.style.opacity = Number(ct > 0);
+        bottomRef.current.style.opacity = Number(Math.round(ct + ch) < Math.round(sh));
       } else {
         topRef.current.style.opacity = 0;
         bottomRef.current.style.opacity = 0;
@@ -51,7 +55,7 @@ export default forwardRef(({
     },
   }));
 
-  const Shadow = styled('div')({
+  const Shadow = styled('div')(({ theme }) => ({
     height,
     left,
     opacity: 0,
@@ -60,7 +64,8 @@ export default forwardRef(({
     top,
     transition: 'opacity 0.3s ease',
     width,
-  });
+    zIndex: theme.zIndex.appBar - 1,
+  }));
 
   return (
     <>

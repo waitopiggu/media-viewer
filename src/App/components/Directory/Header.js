@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dirname } from 'path';
 import { debounce, reverse, shuffle } from 'lodash';
 import {
-  AppBar, Divider, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
+  AppBar, Box, Divider, IconButton, InputBase, Menu, MenuItem, Toolbar, Tooltip,
 } from '@mui/material';
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
 import actions from '../../store/actions';
 import { PrimaryDivider } from '../../shared/components';
 import { naturalSortBy } from '../../shared/util';
+import { appBarHeight, directoryListWidth } from '../../shared/vars';
 
 const DELAY_MS = 300;
 
@@ -94,7 +95,12 @@ export default function ({ onFileSearch }) {
 
   return (
     <>
-      <AppBar color="transparent" elevation={0} position="relative">
+      <Box sx={{ height: appBarHeight }} />
+      <AppBar
+        color="transparent"
+        elevation={0}
+        sx={{ top: appBarHeight, left: 0, width: directoryListWidth }}
+      >
         <Toolbar disableGutters variant="dense">
           <Tooltip arrow placement="right" title="Parent Directory">
             <IconButton color="primary" onClick={onParentDir} sx={buttonStyle}>
