@@ -5,10 +5,11 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { getCurrentWindow } from '@electron/remote';
 import { createRoot } from 'react-dom/client';
-import { Box, CssBaseline, Divider } from '@mui/material';
-import { appBarHeight } from './shared/vars';
-import actions from './store/actions';
+import { Box, CssBaseline } from '@mui/material';
 import store from './store';
+import actions from './store/actions';
+import { PrimaryDivider } from './shared/components';
+import { appBarHeight } from './shared/vars';
 import { AppBar, DevTools, Directory, Media } from './components';
 
 const DELAY_MS = 300;
@@ -47,7 +48,7 @@ function App() {
       <Box sx={{ height: appBarHeight }} />
       <Box sx={{ display: 'flex' }}>
         <Directory />
-        <Divider orientation="vertical" sx={{ height: 'auto' }} />
+        <PrimaryDivider orientation="vertical" sx={{ height: 'auto' }} />
         <Media />
       </Box>
     </>

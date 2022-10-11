@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { AppBar, Divider, Grid, Toolbar, Typography } from '@mui/material';
+import { AppBar, Grid, Toolbar, Typography } from '@mui/material';
 import { useMedia } from '../../shared/hooks';
 import { formatBytes } from '../../shared/util';
 import { directoryListWidth } from '../../shared/vars';
@@ -31,7 +31,6 @@ export default function () {
       elevation={0}
       sx={{ bottom: 0, left: 0, top: 'auto', width: directoryListWidth }}
     >
-      <Divider />
       <Toolbar disableGutters variant="dense">
         <Grid container direction="row" justifyContent="space-between">
           <FooterText>

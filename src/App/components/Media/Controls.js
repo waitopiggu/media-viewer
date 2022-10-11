@@ -18,6 +18,7 @@ import {
   KeyboardArrowLeft, KeyboardArrowRight, Settings,
 } from '@mui/icons-material';
 import actions from '../../store/actions';
+import { PrimaryDivider } from '../../shared/components';
 
 /**
  * Media Controls Component
@@ -53,7 +54,7 @@ export default function ({ menuItems }) {
 
   return (
     <AppBar color="transparent" elevation={0} position="relative">
-      <Divider />
+      <PrimaryDivider />
       <Toolbar variant="dense">
         <Grid container justifyContent="center">
           <Tooltip arrow title="Previous File">

@@ -4,7 +4,7 @@ import { existsSync, statSync } from 'fs';
 import { useDispatch, useSelector } from 'react-redux';
 import { dialog } from '@electron/remote';
 import {
-  AppBar, Divider, IconButton, InputBase, Toolbar, Tooltip, Typography,
+  AppBar, IconButton, InputBase, Toolbar, Tooltip, Typography,
 } from '@mui/material';
 import { FolderOpen } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
@@ -112,7 +112,6 @@ export default function () {
           </Tooltip>
         )}
       </Toolbar>
-      <Divider />
     </AppBar>
   );
 }

@@ -6,6 +6,7 @@ import {
 import { styled } from '@mui/material/styles';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import actions from '../../store/actions';
+import { ShadowBox } from '../../shared/components';
 import { useMedia } from '../../shared/hooks';
 import { appBarHeight } from '../../shared/vars';
 import Background, { backgroundStyles } from './Background';
@@ -18,6 +19,8 @@ export default function () {
   const dispatch = useDispatch();
   const image = useSelector((state) => state.image);
   const media = useMedia();
+  const scrollRef = React.useRef(0);
+  const shadowBoxRef = React.useRef(0);
 
   const Img = styled('img')({
     display: 'block',
@@ -80,11 +83,26 @@ export default function () {
     }
   };
 
+  const onDisplayShadows = () => {
+    if (scrollRef.current && shadowBoxRef.current) {
+      const el = scrollRef.current.container.current;
+      shadowBoxRef.current.calculate(
+        el.scrollLeft,
+        el.scrollTop,
+        el.clientWidth,
+        el.clientHeight,
+        el.scrollWidth,
+        el.scrollHeight,
+      );
+    }
+  };
+
   const onLoad = (event) => {
     const img = event.target;
     const container = img.parentNode;
     imageTranslateY(img, container);
     img.style.opacity = 1;
+    onDisplayShadows();
   };
 
   const onNext = (event) => {
@@ -112,7 +130,7 @@ export default function () {
       <Background>
         <ImgBg draggable={false} src={media.path} />
       </Background>
-      <ImgScrollContainer hideScrollbars={false}>
+      <ImgScrollContainer onScroll={onDisplayShadows} ref={scrollRef}>
         <Img
           id="media-img"
           draggable={false}
@@ -122,6 +140,7 @@ export default function () {
           src={media.path}
         />
       </ImgScrollContainer>
+      <ShadowBox height={`calc(100% - ${appBarHeight}px)`} ref={shadowBoxRef} />
       <Controls menuItems={menuItems} />
     </>
   );

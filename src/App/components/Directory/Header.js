@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { DriveFolderUpload, Sort } from '@mui/icons-material';
 import actions from '../../store/actions';
+import { PrimaryDivider } from '../../shared/components';
 import { naturalSortBy } from '../../shared/util';
 
 const DELAY_MS = 300;
@@ -112,7 +113,7 @@ export default function ({ onFileSearch }) {
             </IconButton>
           </Tooltip>
         </Toolbar>
-        <Divider />
+        <PrimaryDivider />
       </AppBar>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onMenuClose}>
         {menuItems.map(({ label, onClick, selected }) => (
