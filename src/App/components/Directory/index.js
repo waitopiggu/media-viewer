@@ -34,11 +34,6 @@ export default function () {
     },
   });
 
-  React.useEffect(() => {
-    const storeDirectory = store.getState().directory;
-    dispatch(actions.directory.set(storeDirectory));
-  }, []);
-
   const filesSearched = React.useMemo(() => (fileSearch ? (
     files.filter((file) => file.name.toLowerCase().includes(fileSearch))
   ) : files), [files, fileSearch]);
@@ -60,6 +55,15 @@ export default function () {
       onDisplayShadows();
     }
   }, [files, media]);
+
+  React.useEffect(() => {
+    const storeDirectory = store.getState().directory;
+    dispatch(actions.directory.set(storeDirectory));
+    window.addEventListener('resize', onDisplayShadows);
+    return () => {
+      window.removeEventListener('resize', onDisplayShadows);
+    };
+  }, []);
 
   return (
     <Box sx={{
