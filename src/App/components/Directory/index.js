@@ -87,7 +87,7 @@ export default function () {
           </List>
         )}
       </AutoSizer>
-      <ShadowBox ref={shadowBoxRef} top={appBarHeight} />
+      <ShadowBox height="calc(100% - 1px)" ref={shadowBoxRef} top={appBarHeight + 1} />
       <Footer />
     </Box>
   );
