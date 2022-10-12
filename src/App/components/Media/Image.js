@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { debounce } from 'lodash';
 import {
   RadioButtonChecked, RadioButtonUnchecked, ToggleOff, ToggleOn,
 } from '@mui/icons-material';
@@ -11,6 +12,8 @@ import { useMedia } from '../../shared/hooks';
 import { appBarHeight } from '../../shared/vars';
 import Background, { backgroundStyles } from './Background';
 import Controls from './Controls';
+
+const DELAY_MS = 100;
 
 /**
  * Media Image Component
@@ -114,11 +117,11 @@ export default function () {
   };
 
   React.useEffect(() => {
-    const onResize = () => {
+    const onResize = debounce(() => {
       const img = document.getElementById('media-img');
       const container = img.parentNode;
       imageTranslateY(img, container);
-    };
+    }, DELAY_MS);
     window.addEventListener('resize', onResize);
     return () => {
       window.removeEventListener('resize', onResize);
