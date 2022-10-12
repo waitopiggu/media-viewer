@@ -56,6 +56,11 @@ export default function () {
     }
   }, [files, media]);
 
+  const onShadowRef = (shadowEl) => {
+    shadowBoxRef.current = shadowEl;
+    onDisplayShadows();
+  };
+
   React.useEffect(() => {
     const storeDirectory = store.getState().directory;
     dispatch(actions.directory.set(storeDirectory));
@@ -87,7 +92,7 @@ export default function () {
           </List>
         )}
       </AutoSizer>
-      <ShadowBox height="calc(100% - 1px)" ref={shadowBoxRef} top={appBarHeight + 1} />
+      <ShadowBox height="calc(100% - 1px)" ref={onShadowRef} top={appBarHeight + 1} />
       <Footer />
     </Box>
   );
