@@ -40,14 +40,14 @@ export default forwardRef(({
     calculate(cl, ct, cw, ch, sw, sh) {
       if (sw > cw) {
         leftRef.current.style.opacity = Number(cl > 0);
-        rightRef.current.style.opacity = Number(Math.round(cl + cw) < Math.round(sw));
+        rightRef.current.style.opacity = Number(cl + cw + 1 < sw);
       } else {
         leftRef.current.style.opacity = 0;
         rightRef.current.style.opacity = 0;
       }
       if (sh > ch) {
         topRef.current.style.opacity = Number(ct > 0);
-        bottomRef.current.style.opacity = Number(Math.round(ct + ch) < Math.round(sh));
+        bottomRef.current.style.opacity = Number(ct + ch + 1 < sh);
       } else {
         topRef.current.style.opacity = 0;
         bottomRef.current.style.opacity = 0;

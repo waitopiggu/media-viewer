@@ -25,18 +25,20 @@ export default () => {
 
   return React.useCallback(({ data, index, style }) => {
     const file = data[index];
+    const selected = file.path === media.path;
 
     return (
       <ListItem component="div" disablePadding key={index} style={style}>
-        <ListItemButton
-          dense
-          onClick={makeItemClick(file)}
-          selected={file.path === media.path}
-        >
+        <ListItemButton dense onClick={makeItemClick(file)} selected={selected}>
           <ListItemAvatar>
             <Avatar
               src={thumbs[file.path]}
-              sx={{ bgcolor: theme.palette.primary.main }}
+              sx={{
+                bgcolor: theme.palette.primary.main,
+                '> img': {
+                  opacity: selected ? 0.5 : 1,
+                },
+              }}
             >
               {file.isDirectory && <FolderOutlined />}
               {file.isImage && <Image />}
