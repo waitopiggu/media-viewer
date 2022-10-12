@@ -3,10 +3,10 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const steps = [
-  'rgba(0, 0, 0, 0.3) 0px',
-  'rgba(0, 0, 0, 0.2) 1px',
-  'rgba(0, 0, 0, 0.1) 2px',
-  'rgba(0, 0, 0, 0.0) 3px',
+  'rgba(0, 0, 0, 0.5) 0px',
+  'rgba(0, 0, 0, 0.3) 1px',
+  'rgba(0, 0, 0, 0.1) 3px',
+  'rgba(0, 0, 0, 0.0) 6px',
 ];
 
 const getStyle = (side) => ({
