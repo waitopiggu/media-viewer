@@ -71,11 +71,15 @@ export const getMediaThumb = async (file) => {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(mediaEl, 0, 0, width, height);
 
-  await db.thumbs.add({
-    dataUrl: canvas.toDataURL('image/jpeg', 0.8),
-    directory: file.directory,
-    path: file.path,
-  }, 'thumbs');
+  try {
+    await db.thumbs.add({
+      dataUrl: canvas.toDataURL('image/jpeg', 0.8),
+      directory: file.directory,
+      path: file.path,
+    }, 'thumbs');
+  } catch (error) {
+    console.error(error, file.directory, file.path);
+  }
 
   return db.thumbs.get(file.path);
 };
