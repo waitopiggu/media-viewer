@@ -27,7 +27,12 @@ export const formatBytes = (bytes, decimals = 2) => {
  */
 export const getMediaThumb = async (file) => {
   const thumb = await db.thumbs.get(file.path);
-  if (thumb) return thumb;
+  if (thumb) {
+    if (thumb.fileDate === file.date && thumb.fileSize === file.size) {
+      return thumb;
+    }
+    await db.thumbs.del(file.path);
+  }
 
   let mediaEl = null;
   let mediaWidth = 0;
@@ -75,6 +80,8 @@ export const getMediaThumb = async (file) => {
     await db.thumbs.add({
       dataUrl: canvas.toDataURL('image/jpeg', 0.8),
       directory: file.directory,
+      fileDate: file.date,
+      fileSize: file.size,
       path: file.path,
     }, 'thumbs');
   } catch (error) {

@@ -19,6 +19,11 @@ export default {
      */
     add: async (data) => (await dbPromise).add(THUMB_STORE_NAME, data),
     /**
+     * DB thumb delete
+     * @param {string} key - file path
+     */
+    del: async (key) => (await dbPromise).delete(THUMB_STORE_NAME, key),
+    /**
      * DB thumbs get
      * @param {string} key - file path
      */
