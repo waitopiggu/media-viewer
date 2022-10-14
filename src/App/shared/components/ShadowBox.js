@@ -12,7 +12,7 @@ const stops = [
 ];
 
 const getOpacityBottomRight = (x, y) => (
-  x < y - FADE_DISTANCE ? 1 : FADE_DISTANCE * (1 - (x / y))
+  x < y - FADE_DISTANCE ? 1 : (x / FADE_DISTANCE) * (1 - (x / y))
 );
 
 const getOpacityTopLeft = (x) => (
