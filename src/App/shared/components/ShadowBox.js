@@ -11,12 +11,12 @@ const steps = [
   'rgba(0, 0, 0, 0.0) 6px',
 ];
 
-const getOpacityBottomRight = (z, cz, sz) => (
-  z < sz - cz - FADE_DISTANCE ? 1 : FADE_DISTANCE * (1 - (z / (sz - cz)))
+const getOpacityBottomRight = (x, y) => (
+  x < y - FADE_DISTANCE ? 1 : FADE_DISTANCE * (1 - (x / y))
 );
 
-const getOpacityTopLeft = (z, cz, sz) => (
-  z < FADE_DISTANCE ? z / FADE_DISTANCE : 1
+const getOpacityTopLeft = (x) => (
+  x < FADE_DISTANCE ? x / FADE_DISTANCE : 1
 );
 
 const getStyle = (side) => ({
@@ -49,15 +49,15 @@ export default forwardRef(({
      */
     calculate(cl, ct, cw, ch, sw, sh) {
       if (sw > cw) {
-        leftRef.current.style.opacity = getOpacityTopLeft(cl, cw, sw);
-        rightRef.current.style.opacity = getOpacityBottomRight(cl, cw, sw);
+        leftRef.current.style.opacity = getOpacityTopLeft(cl);
+        rightRef.current.style.opacity = getOpacityBottomRight(cl, sw - cw);
       } else {
         leftRef.current.style.opacity = 0;
         rightRef.current.style.opacity = 0;
       }
       if (sh > ch) {
-        topRef.current.style.opacity = getOpacityTopLeft(ct, ch, sh);
-        bottomRef.current.style.opacity = getOpacityBottomRight(ct, ch, sh);
+        topRef.current.style.opacity = getOpacityTopLeft(ct);
+        bottomRef.current.style.opacity = getOpacityBottomRight(ct, sh - ch);
       } else {
         topRef.current.style.opacity = 0;
         bottomRef.current.style.opacity = 0;
