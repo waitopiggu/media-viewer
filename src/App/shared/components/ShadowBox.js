@@ -2,12 +2,22 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+const FADE_DISTANCE = 48;
+
 const steps = [
   'rgba(0, 0, 0, 0.5) 0px',
   'rgba(0, 0, 0, 0.3) 1px',
   'rgba(0, 0, 0, 0.1) 3px',
   'rgba(0, 0, 0, 0.0) 6px',
 ];
+
+const getOpacityBottomRight = (z, cz, sz) => (
+  z < sz - cz - FADE_DISTANCE ? 1 : FADE_DISTANCE * (1 - (z / (sz - cz)))
+);
+
+const getOpacityTopLeft = (z, cz, sz) => (
+  z < FADE_DISTANCE ? z / FADE_DISTANCE : 1
+);
 
 const getStyle = (side) => ({
   background: `linear-gradient(to ${side}, ${steps.join(',')})`,
@@ -39,15 +49,15 @@ export default forwardRef(({
      */
     calculate(cl, ct, cw, ch, sw, sh) {
       if (sw > cw) {
-        leftRef.current.style.opacity = Number(cl > 0);
-        rightRef.current.style.opacity = Number(cl + cw + 1 < sw);
+        leftRef.current.style.opacity = getOpacityTopLeft(cl, cw, sw);
+        rightRef.current.style.opacity = getOpacityBottomRight(cl, cw, sw);
       } else {
         leftRef.current.style.opacity = 0;
         rightRef.current.style.opacity = 0;
       }
       if (sh > ch) {
-        topRef.current.style.opacity = Number(ct > 0);
-        bottomRef.current.style.opacity = Number(ct + ch + 1 < sh);
+        topRef.current.style.opacity = getOpacityTopLeft(ct, ch, sh);
+        bottomRef.current.style.opacity = getOpacityBottomRight(ct, ch, sh);
       } else {
         topRef.current.style.opacity = 0;
         bottomRef.current.style.opacity = 0;
@@ -62,7 +72,6 @@ export default forwardRef(({
     pointerEvents: 'none',
     position: 'absolute',
     top,
-    transition: 'opacity 0.3s ease',
     width,
     zIndex: theme.zIndex.appBar - 1,
   }));
