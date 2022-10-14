@@ -100,8 +100,8 @@ export const getPosixPath = (pathValue) => (
  * Natural Sort-by
  * @param {string} value
  */
-export const naturalSortBy = (value) => {
-  const sorter = natsort({ insensitive: true });
+export const naturalSortBy = (value, desc = false) => {
+  const sorter = natsort({ desc, insensitive: true });
   return (a, b) => sorter(a[value], b[value]);
 };
 

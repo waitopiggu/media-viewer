@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 const FADE_DISTANCE = 48;
 
-const steps = [
+const stops = [
   'rgba(0, 0, 0, 0.5) 0px',
   'rgba(0, 0, 0, 0.3) 1px',
   'rgba(0, 0, 0, 0.1) 3px',
@@ -20,7 +20,7 @@ const getOpacityTopLeft = (x) => (
 );
 
 const getStyle = (side) => ({
-  background: `linear-gradient(to ${side}, ${steps.join(',')})`,
+  background: `linear-gradient(to ${side}, ${stops.join(',')})`,
 });
 
 /**
