@@ -17,6 +17,7 @@ const reducers = combineReducers({
   directory: slices.directory.reducer,
   directoryFile: slices.directoryFile.reducer,
   files: slices.files.reducer,
+  fileSort: slices.fileSort.reducer,
   image: slices.image.reducer,
   video: slices.video.reducer,
 });

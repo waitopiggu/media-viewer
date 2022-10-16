@@ -18,8 +18,6 @@ const buttonStyle = {
   marginRight: 2,
 };
 
-const initSort = { desc: false, value: 'name' };
-
 /**
  * Directory Header Component
  */
@@ -27,48 +25,33 @@ export default function ({ onFileSearch }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
   const directory = useSelector((state) => state.directory);
-  const files = useSelector((state) => state.files);
+  const fileSort = useSelector((state) => state.fileSort);
   const [searchValue, setSearchValue] = React.useState('');
-  const [sort, setSort] = React.useState(initSort);
 
   const parentDir = React.useMemo(() => dirname(directory), [directory]);
-
-  const onSortFiles = (value) => {
-    let desc = value === sort.value && !sort.desc;
-    let next = [];
-    if (value === 'shuffle') {
-      desc = false;
-      next = shuffle(files.slice());
-    } else {
-      next = files.slice().sort(naturalSortBy(value, desc));
-    }
-    dispatch(actions.files.set(next));
-    setAnchorEl(null);
-    setSort({ desc, value });
-  };
 
   const menuItems = React.useMemo(() => [
     {
       label: 'Name',
       onClick: () => onSortFiles('name'),
-      selected: sort.value === 'name',
+      selected: fileSort.value === 'name',
     },
     {
       label: 'Date',
       onClick: () => onSortFiles('date'),
-      selected: sort.value === 'date',
+      selected: fileSort.value === 'date',
     },
     {
       label: 'Size',
       onClick: () => onSortFiles('size'),
-      selected: sort.value === 'size',
+      selected: fileSort.value === 'size',
     },
     {
       label: 'Type',
       onClick: () => onSortFiles('type'),
-      selected: sort.value === 'type',
+      selected: fileSort.value === 'type',
     },
-  ], [onSortFiles, sort]);
+  ], [fileSort, onSortFiles]);
 
   const onSearchValueChanged = debounce(onFileSearch, DELAY_MS);
 
@@ -88,11 +71,14 @@ export default function ({ onFileSearch }) {
     setSearchValue('');
   };
 
-  const onShuffleFiles = () => onSortFiles('shuffle');
+  const onSortFiles = (value) => {
+    const desc = value === fileSort.value && value !== 'shuffle' ? !fileSort.desc : false
+    dispatch(actions.fileSort.set({ desc, value }));
+    setAnchorEl(null);
+    setSort({ desc, value });
+  };
 
-  React.useEffect(() => {
-    setSort(initSort);
-  }, [directory]);
+  const onShuffleFiles = () => onSortFiles('shuffle');
 
   return (
     <>
@@ -129,7 +115,7 @@ export default function ({ onFileSearch }) {
           </MenuItem>
         ))}
         <Divider />
-        <MenuItem onClick={onShuffleFiles} selected={sort === 'shuffle'}>
+        <MenuItem onClick={onShuffleFiles} selected={fileSort.value === 'shuffle'}>
           Shuffle
         </MenuItem>
       </Menu>
