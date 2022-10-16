@@ -9,9 +9,8 @@ const getPath = (dir, name) => `${dir}/${name}`.replace('//', '/', 'g');
 const getSortedFiles = (files, { desc, value }) => {
   if (value === 'shuffle') {
     return shuffle(files.slice());
-  } else {
-    return files.slice().sort(util.naturalSortBy(value, desc));
   }
+  return files.slice().sort(util.naturalSortBy(value, desc));
 };
 
 export default [

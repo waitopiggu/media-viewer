@@ -30,6 +30,12 @@ export default function ({ onFileSearch }) {
 
   const parentDir = React.useMemo(() => dirname(directory), [directory]);
 
+  const onSortFiles = (value) => {
+    const desc = value === fileSort.value && value !== 'shuffle' ? !fileSort.desc : false;
+    dispatch(actions.fileSort.set({ desc, value }));
+    setAnchorEl(null);
+  };
+
   const menuItems = React.useMemo(() => [
     {
       label: 'Name',
@@ -69,13 +75,6 @@ export default function ({ onFileSearch }) {
     dispatch(actions.directory.set(parentDir));
     onFileSearch('');
     setSearchValue('');
-  };
-
-  const onSortFiles = (value) => {
-    const desc = value === fileSort.value && value !== 'shuffle' ? !fileSort.desc : false
-    dispatch(actions.fileSort.set({ desc, value }));
-    setAnchorEl(null);
-    setSort({ desc, value });
   };
 
   const onShuffleFiles = () => onSortFiles('shuffle');

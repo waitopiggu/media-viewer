@@ -38,7 +38,7 @@ export default function () {
       ':hover': {
         backgroundColor: theme.palette.primary.dark,
       },
-    }
+    },
   }));
 
   const filesSearched = React.useMemo(() => (fileSearch ? (
