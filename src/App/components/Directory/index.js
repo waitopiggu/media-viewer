@@ -28,11 +28,18 @@ export default function () {
   const shadowBoxRef = React.useRef(0);
   const store = useStore();
 
-  const List = styled(FixedSizeList)({
+  const List = styled(FixedSizeList)(({ theme }) => ({
     '::-webkit-scrollbar': {
-      width: 0,
+      background: theme.palette.grey[300],
+      width: 8,
     },
-  });
+    '::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.primary.main,
+      ':hover': {
+        backgroundColor: theme.palette.primary.dark,
+      },
+    }
+  }));
 
   const filesSearched = React.useMemo(() => (fileSearch ? (
     files.filter((file) => file.name.toLowerCase().includes(fileSearch))
